@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../features/auth/AuthContext';
 import { notificationApi } from '../../services/api';
 import { Notification } from '../../types';
 import {
-  Bell, Globe, LogOut, User, Shield, CheckCircle, AlertCircle, ChevronDown, RefreshCw
+  Bell, Globe, LogOut, User, Shield, CheckCircle, AlertCircle, ChevronDown, RefreshCw,
+  Activity, Sparkles
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -42,21 +44,32 @@ export const Navbar: React.FC = () => {
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
       <div className="flex items-center justify-between px-6 py-2.5">
-        {/* Left: Branding & Sub-title */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-gov-blue flex items-center justify-center text-white font-bold shadow-sm">
-            <span className="text-lg">Σ</span>
+        {/* Left: Branding & Logo that functions as Home button */}
+        <Link
+          to="/"
+          className="flex items-center gap-3 group transition-transform active:scale-95"
+          title="Return to StatSkill AI Home"
+        >
+          <div className="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-indigo-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-gov-blue/20 ring-2 ring-white group-hover:scale-105 transition-transform">
+            <Activity className="w-5 h-5 text-white stroke-[2.2]" />
+            <span className="absolute -bottom-1 -right-1 bg-amber-400 text-navy-900 rounded-full p-0.5 shadow-xs">
+              <Sparkles className="w-2.5 h-2.5 fill-current" />
+            </span>
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-lg font-bold text-navy-900 tracking-tight">StatSkill AI</span>
-              <span className="text-xs px-2 py-0.5 rounded font-medium bg-slate-100 text-slate-700 border border-slate-200">
+              <span className="text-lg font-extrabold text-navy-900 tracking-tight group-hover:text-gov-blue transition-colors">
+                StatSkill AI
+              </span>
+              <span className="text-[11px] px-2 py-0.5 rounded font-semibold bg-slate-100 text-slate-700 border border-slate-200">
                 MoSPI / NSSTA
               </span>
             </div>
-            <p className="text-xs text-slate-700">Official Statistical System Skill Intelligence Platform</p>
+            <p className="text-[11px] text-slate-500 font-medium leading-none mt-0.5">
+              Official Statistical System Intelligence Platform
+            </p>
           </div>
-        </div>
+        </Link>
 
         {/* Right: Quick Role Switcher, Language, Notifications, User */}
         <div className="flex items-center gap-3">
@@ -68,110 +81,83 @@ export const Navbar: React.FC = () => {
               title="Switch demo persona"
             >
               <Shield className="w-3.5 h-3.5 text-gov-blue" />
-              <span>Role: <strong className="capitalize">{user?.role || 'Learner'}</strong></span>
+              <span className="capitalize">{user?.role || 'Role'}</span>
               <ChevronDown className="w-3 h-3 text-slate-400" />
             </button>
 
             {showRoleMenu && (
-              <div className="absolute right-0 mt-1.5 w-56 bg-white border border-slate-200 rounded-lg shadow-lg py-1.5 z-50 text-xs">
-                <div className="px-3 py-1 font-semibold text-slate-700 border-b border-slate-100">
-                  Switch Active Role Persona
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-slate-200 py-1 z-50 animate-in fade-in duration-100">
+                <div className="px-3 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-100">
+                  Switch Persona
                 </div>
-                <button
-                  onClick={() => { loginAs('learner'); setShowRoleMenu(false); }}
-                  className="w-full text-left px-3 py-2 hover:bg-slate-50 flex items-center justify-between"
-                >
-                  <div>
-                    <div className="font-medium text-slate-800">Learner / Official</div>
-                    <div className="text-[11px] text-slate-700">Ramesh Kumar (SSO - Price Stat)</div>
-                  </div>
-                  {user?.role === 'learner' && <CheckCircle className="w-4 h-4 text-emerald-600" />}
-                </button>
-                <button
-                  onClick={() => { loginAs('trainer'); setShowRoleMenu(false); }}
-                  className="w-full text-left px-3 py-2 hover:bg-slate-50 flex items-center justify-between"
-                >
-                  <div>
-                    <div className="font-medium text-slate-800">Trainer Faculty</div>
-                    <div className="text-[11px] text-slate-700">Dr. Sunita Rao (NSSTA Faculty)</div>
-                  </div>
-                  {user?.role === 'trainer' && <CheckCircle className="w-4 h-4 text-teal-600" />}
-                </button>
-                <button
-                  onClick={() => { loginAs('manager'); setShowRoleMenu(false); }}
-                  className="w-full text-left px-3 py-2 hover:bg-slate-50 flex items-center justify-between"
-                >
-                  <div>
-                    <div className="font-medium text-slate-800">Department Manager</div>
-                    <div className="text-[11px] text-slate-700">Vikramaditya Sharma (ADG)</div>
-                  </div>
-                  {user?.role === 'manager' && <CheckCircle className="w-4 h-4 text-blue-600" />}
-                </button>
-                <button
-                  onClick={() => { loginAs('admin'); setShowRoleMenu(false); }}
-                  className="w-full text-left px-3 py-2 hover:bg-slate-50 flex items-center justify-between"
-                >
-                  <div>
-                    <div className="font-medium text-slate-800">Platform Admin</div>
-                    <div className="text-[11px] text-slate-700">System Administrator</div>
-                  </div>
-                  {user?.role === 'admin' && <CheckCircle className="w-4 h-4 text-purple-600" />}
-                </button>
+                {(['learner', 'trainer', 'manager', 'admin'] as const).map((r) => (
+                  <button
+                    key={r}
+                    onClick={() => {
+                      loginAs(r);
+                      setShowRoleMenu(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between hover:bg-slate-50 transition capitalize ${
+                      user?.role === r ? 'font-bold text-gov-blue bg-blue-50/50' : 'text-slate-700'
+                    }`}
+                  >
+                    <span>{r}</span>
+                    {user?.role === r && <CheckCircle className="w-3.5 h-3.5 text-gov-blue" />}
+                  </button>
+                ))}
               </div>
             )}
           </div>
 
-          {/* Language Switcher */}
-          <div className="flex items-center bg-slate-100 rounded-md p-0.5 border border-slate-200">
-            <button
-              onClick={() => setLanguage('en')}
-              className={`px-2 py-1 text-xs rounded font-medium transition ${language === 'en' ? 'bg-white text-gov-blue shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
-            >
-              EN
-            </button>
-            <button
-              onClick={() => setLanguage('hi')}
-              className={`px-2 py-1 text-xs rounded font-medium transition ${language === 'hi' ? 'bg-white text-gov-blue shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
-            >
-              हिन्दी
-            </button>
-          </div>
+          {/* Bilingual Language Switcher */}
+          <button
+            onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
+            className="flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-md border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium transition"
+            title="Toggle Language: English / Hindi"
+          >
+            <Globe className="w-3.5 h-3.5 text-slate-500" />
+            <span className="font-semibold">{language === 'en' ? 'हिन्दी' : 'English'}</span>
+          </button>
 
           {/* Notifications Dropdown */}
           <div className="relative">
             <button
-              onClick={() => setShowNotifs(!showNotifs)}
-              className="relative p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition"
+              onClick={() => {
+                setShowNotifs(!showNotifs);
+                if (!showNotifs && unreadCount > 0) markAllRead();
+              }}
+              className="relative p-2 rounded-md hover:bg-slate-100 text-slate-600 transition"
               title="Notifications"
             >
               <Bell className="w-4 h-4" />
               {unreadCount > 0 && (
-                <span className="absolute top-1 right-1 w-4 h-4 bg-amber-500 text-white rounded-full text-[10px] flex items-center justify-center font-bold">
-                  {unreadCount}
-                </span>
+                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white" />
               )}
             </button>
 
             {showNotifs && (
-              <div className="absolute right-0 mt-1.5 w-80 bg-white border border-slate-200 rounded-lg shadow-xl z-50 overflow-hidden text-xs">
-                <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-                  <span className="font-semibold text-slate-800">System Notifications</span>
-                  {unreadCount > 0 && (
-                    <button onClick={markAllRead} className="text-gov-blue hover:underline text-[11px]">
-                      Mark all as read
-                    </button>
-                  )}
+              <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in duration-100">
+                <div className="flex items-center justify-between px-3 py-1.5 border-b border-slate-100">
+                  <span className="text-xs font-bold text-navy-900">Notifications</span>
+                  <span className="text-[11px] text-slate-500">{notifications.length} total</span>
                 </div>
-                <div className="max-h-72 overflow-y-auto divide-y divide-slate-100">
+                <div className="max-h-64 overflow-y-auto divide-y divide-slate-100">
                   {notifications.length === 0 ? (
-                    <div className="p-4 text-center text-slate-700">No notifications</div>
+                    <div className="p-4 text-center text-xs text-slate-400">
+                      No notifications yet
+                    </div>
                   ) : (
-                    notifications.map(n => (
-                      <div key={n.id} className={`p-3 ${n.is_read ? 'bg-white' : 'bg-blue-50/50'}`}>
-                        <div className="font-semibold text-slate-900">{n.title}</div>
-                        <p className="text-slate-600 mt-0.5">{n.message}</p>
-                        <span className="text-[10px] text-slate-700 mt-1 block">
-                          {new Date(n.created_at).toLocaleDateString()}
+                    notifications.map((n) => (
+                      <div
+                        key={n.id}
+                        className={`p-3 text-xs hover:bg-slate-50 transition ${
+                          !n.is_read ? 'bg-blue-50/30' : ''
+                        }`}
+                      >
+                        <div className="font-semibold text-slate-900 mb-0.5">{n.title}</div>
+                        <p className="text-slate-600 line-clamp-2">{n.message}</p>
+                        <span className="text-[10px] text-slate-400 mt-1 block">
+                          {new Date(n.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
                     ))
@@ -185,40 +171,42 @@ export const Navbar: React.FC = () => {
           <div className="relative">
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-lg hover:bg-slate-100 transition"
+              className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-full hover:bg-slate-100 border border-slate-200 transition"
             >
-              <div className="w-7 h-7 rounded-full bg-slate-200 flex items-center justify-center text-slate-700 font-semibold text-xs border border-slate-300">
-                {user?.full_name ? user.full_name[0] : 'U'}
+              <div className="w-7 h-7 rounded-full bg-gov-blue/10 text-gov-blue flex items-center justify-center font-bold text-xs">
+                {user?.full_name?.charAt(0) || 'U'}
               </div>
-              <div className="text-left hidden sm:block">
-                <div className="text-xs font-semibold text-slate-800 leading-tight">{user?.full_name || 'Official'}</div>
-                <div className="text-[10px] text-slate-700 capitalize">{user?.role || 'Learner'}</div>
-              </div>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+              <span className="text-xs font-medium text-slate-700 max-w-[100px] truncate hidden sm:inline">
+                {user?.full_name || 'Official User'}
+              </span>
+              <ChevronDown className="w-3 h-3 text-slate-400 mr-1" />
             </button>
 
             {showProfileMenu && (
-              <div className="absolute right-0 mt-1.5 w-52 bg-white border border-slate-200 rounded-lg shadow-lg py-1.5 z-50 text-xs">
+              <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-slate-200 py-1.5 z-50">
                 <div className="px-3 py-2 border-b border-slate-100">
-                  <div className="font-semibold text-slate-900">{user?.full_name}</div>
-                  <div className="text-[11px] text-slate-700 truncate">{user?.email}</div>
-                  <div className={`mt-1 inline-block px-1.5 py-0.5 rounded text-[10px] font-medium border ${getRoleBadgeColor(user?.role)}`}>
-                    {user?.role?.toUpperCase()}
-                  </div>
+                  <p className="text-xs font-bold text-navy-900 truncate">{user?.full_name}</p>
+                  <p className="text-[11px] text-slate-500 truncate">{user?.email}</p>
+                  <span className={`inline-block mt-1 text-[10px] font-semibold px-2 py-0.5 rounded border capitalize ${getRoleBadgeColor(user?.role)}`}>
+                    {user?.role}
+                  </span>
                 </div>
-                <a
-                  href="/profile"
+                <Link
+                  to="/profile"
                   onClick={() => setShowProfileMenu(false)}
-                  className="flex items-center gap-2 px-3 py-2 text-slate-700 hover:bg-slate-50 transition"
+                  className="w-full text-left px-3 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2"
                 >
-                  <User className="w-3.5 h-3.5" />
-                  <span>My Competency Profile</span>
-                </a>
+                  <User className="w-3.5 h-3.5 text-slate-400" />
+                  <span>My Official Profile</span>
+                </Link>
                 <button
-                  onClick={() => { logout(); setShowProfileMenu(false); }}
-                  className="w-full text-left flex items-center gap-2 px-3 py-2 text-rose-600 hover:bg-rose-50 transition border-t border-slate-100"
+                  onClick={() => {
+                    setShowProfileMenu(false);
+                    logout();
+                  }}
+                  className="w-full text-left px-3 py-2 text-xs text-rose-600 hover:bg-rose-50 flex items-center gap-2 border-t border-slate-100"
                 >
-                  <LogOut className="w-3.5 h-3.5" />
+                  <LogOut className="w-3.5 h-3.5 text-rose-500" />
                   <span>Sign Out</span>
                 </button>
               </div>

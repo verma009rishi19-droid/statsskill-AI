@@ -162,17 +162,52 @@ export const QuizStudioPage: React.FC = () => {
     }
     setUploading(true);
     setUploadError(null);
+    setGenerating(true);
+    setGenerateError(null);
     try {
+      // 1. Upload document directly
       const formData = new FormData();
       formData.append('file', file);
       const res = await quizStudioApi.uploadDocument(formData);
-      setDocumentInfo(res.data);
-      setQuizTitle(file.name.replace(/\.[^.]+$/, '') + ' Quiz');
-      setStage('configure');
+      const doc = res.data;
+      setDocumentInfo(doc);
+
+      const computedTitle = file.name.replace(/\.[^.]+$/, '') + ' Quiz';
+      setQuizTitle(computedTitle);
+
+      // 2. Automatically generate quiz questions without asking configuration
+      const genRes = await quizStudioApi.generateQuiz({
+        document_id: doc.id,
+        num_questions: numQuestions,
+        difficulty,
+      });
+
+      const questions = genRes.data.generated_questions || [];
+      setGeneratedQuestions(questions);
+
+      // 3. Automatically save the quiz so it is immediately playable
+      const saveRes = await quizStudioApi.saveQuiz({
+        document_id: doc.id,
+        title: computedTitle,
+        difficulty,
+        questions: questions,
+      });
+
+      const newQuizId = saveRes.data.quiz_id || saveRes.data.id;
+      setSavedQuizId(newQuizId);
+
+      // 4. Immediately launch the interactive playable quiz mode!
+      await fetchQuizzes();
+      if (newQuizId) {
+        await startQuiz(String(newQuizId));
+      }
+      setActiveTab('quizzes');
     } catch (err: any) {
-      setUploadError(err?.message ?? 'Upload failed');
+      setUploadError(err?.message ?? 'Automatic quiz preparation failed');
+      setStage('upload');
     } finally {
       setUploading(false);
+      setGenerating(false);
     }
   };
 
@@ -340,20 +375,27 @@ export const QuizStudioPage: React.FC = () => {
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
       >
-        {uploading ? (
+        {uploading || generating ? (
           <div className="flex flex-col items-center gap-3">
             <Loader2 className="w-10 h-10 text-gov-blue animate-spin" />
-            <p className="text-sm text-slate-600">Uploading document…</p>
+            <p className="text-sm font-bold text-navy-900">Preparing and Generating Quiz Automatically…</p>
+            <p className="text-xs text-slate-500">Extracting content &bull; Generating questions &bull; Opening quiz immediately</p>
           </div>
         ) : (
           <>
-            <FileUp className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-            <p className="text-sm font-semibold text-navy-900 mb-1">
-              Drop your document here or click to browse
+            <div className="w-14 h-14 rounded-2xl bg-blue-50 text-gov-blue flex items-center justify-center mx-auto mb-3 shadow-xs">
+              <Sparkles className="w-7 h-7" />
+            </div>
+            <p className="text-base font-bold text-navy-900 mb-1">
+              Upload Document for Instant Ready-to-Play Quiz
             </p>
-            <p className="text-xs text-slate-500">
-              Supported formats: PDF, DOCX, PPTX, TXT
+            <p className="text-xs text-slate-500 mb-2">
+              Drop any document here — our AI immediately compiles questions and launches the quiz with no extra questions or delays!
             </p>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+              <Zap className="w-3.5 h-3.5 text-amber-500" />
+              <span>Instant Play &bull; Automated Scoring &bull; Scorecard Evaluation</span>
+            </div>
           </>
         )}
         <input
@@ -737,20 +779,44 @@ export const QuizStudioPage: React.FC = () => {
 
           {/* Score card */}
           <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-xs text-center">
-            <div className="w-20 h-20 rounded-full mx-auto flex items-center justify-center bg-gradient-to-br from-blue-50 to-emerald-50 mb-3">
+            <div className="w-20 h-20 rounded-full mx-auto flex items-center justify-center bg-gradient-to-br from-blue-50 to-emerald-50 mb-3 shadow-inner">
               <Trophy className={`w-10 h-10 ${scoreColor(pct)}`} />
             </div>
-            <p className={`text-3xl font-bold ${scoreColor(pct)}`}>{pct}%</p>
-            <p className="text-sm text-slate-600 mt-1">
-              {quizResult.score} / {quizResult.total_questions ?? activeQuiz.questions?.length} correct
+            <div className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-2 bg-slate-100 text-slate-700">
+              Official Quiz Performance Scorecard
+            </div>
+            <p className={`text-4xl font-extrabold ${scoreColor(pct)}`}>{pct}%</p>
+            <p className="text-sm font-semibold text-navy-900 mt-1">
+              Score: {quizResult.score} / {quizResult.total_questions ?? activeQuiz.questions?.length} Correct
             </p>
-            <div className="flex items-center justify-center gap-3 mt-4">
+
+            {/* Scorecard quick stats */}
+            <div className="grid grid-cols-3 gap-3 max-w-sm mx-auto mt-4 pt-4 border-t border-slate-100 text-xs">
+              <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-200">
+                <span className="text-[10px] text-emerald-600 block uppercase font-bold">Correct</span>
+                <span className="text-base font-bold text-emerald-800">{quizResult.score}</span>
+              </div>
+              <div className="p-2 rounded-lg bg-rose-50 border border-rose-200">
+                <span className="text-[10px] text-rose-600 block uppercase font-bold">Incorrect</span>
+                <span className="text-base font-bold text-rose-800">
+                  {(quizResult.total_questions ?? activeQuiz.questions?.length ?? 0) - (quizResult.score ?? 0)}
+                </span>
+              </div>
+              <div className="p-2 rounded-lg bg-blue-50 border border-blue-200">
+                <span className="text-[10px] text-gov-blue block uppercase font-bold">Status</span>
+                <span className="text-xs font-bold text-gov-blue">
+                  {pct >= 60 ? 'Passed ✓' : 'Needs Review'}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center gap-3 mt-5">
               <button
                 onClick={() => setShowExplanations(!showExplanations)}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-gov-blue border border-gov-blue/30 rounded-lg hover:bg-blue-50 transition-colors"
+                className="flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-gov-blue border border-gov-blue/30 rounded-lg hover:bg-blue-50 transition-colors shadow-xs"
               >
-                <Lightbulb className="w-3 h-3" />
-                {showExplanations ? 'Hide' : 'Show'} Explanations
+                <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
+                {showExplanations ? 'Hide Explanations' : 'View Question Explanations'}
               </button>
               <button
                 onClick={() => {
@@ -758,9 +824,9 @@ export const QuizStudioPage: React.FC = () => {
                   setQuizResult(null);
                   fetchQuizzes();
                 }}
-                className="px-3 py-1.5 text-xs font-semibold text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+                className="px-4 py-2 text-xs font-semibold text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors shadow-xs"
               >
-                Done
+                Return to Quizzes
               </button>
             </div>
           </div>

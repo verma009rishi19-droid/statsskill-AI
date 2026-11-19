@@ -4,6 +4,7 @@ import { useAuth } from '../features/auth/AuthContext';
 import { authApi } from '../services/api';
 import {
   AlertCircle, Eye, EyeOff, LogIn, UserPlus, CheckCircle2,
+  GraduationCap, BookOpen, Briefcase, ShieldCheck, Sparkles, Activity
 } from 'lucide-react';
 
 type Tab = 'signin' | 'register';
@@ -14,9 +15,52 @@ const ROLES = [
   { value: 'manager',  label: 'Manager',  desc: 'Department head / reporting officer' },
 ];
 
+const DEMO_TILES = [
+  {
+    role: 'learner',
+    title: 'Learner',
+    name: 'Priya Sharma',
+    email: 'learner@mospi.gov.in',
+    icon: BookOpen,
+    bg: 'hover:bg-blue-50/80 border-blue-200 text-blue-900',
+    iconBg: 'bg-blue-100 text-blue-700',
+    badge: 'bg-blue-50 text-blue-700 border-blue-200',
+  },
+  {
+    role: 'trainer',
+    title: 'Trainer / Teacher',
+    name: 'Dr. Rajesh Kumar',
+    email: 'trainer@nssta.gov.in',
+    icon: GraduationCap,
+    bg: 'hover:bg-teal-50/80 border-teal-200 text-teal-900',
+    iconBg: 'bg-teal-100 text-teal-700',
+    badge: 'bg-teal-50 text-teal-700 border-teal-200',
+  },
+  {
+    role: 'manager',
+    title: 'Manager',
+    name: 'Anita Desai',
+    email: 'manager@mospi.gov.in',
+    icon: Briefcase,
+    bg: 'hover:bg-amber-50/80 border-amber-200 text-amber-900',
+    iconBg: 'bg-amber-100 text-amber-700',
+    badge: 'bg-amber-50 text-amber-700 border-amber-200',
+  },
+  {
+    role: 'admin',
+    title: 'Administrator',
+    name: 'Vikram Patel',
+    email: 'admin@statskill.gov.in',
+    icon: ShieldCheck,
+    bg: 'hover:bg-purple-50/80 border-purple-200 text-purple-900',
+    iconBg: 'bg-purple-100 text-purple-700',
+    badge: 'bg-purple-50 text-purple-700 border-purple-200',
+  },
+] as const;
+
 export const LoginPage: React.FC = () => {
-  const navigate  = useNavigate();
-  const { login } = useAuth();
+  const navigate = useNavigate();
+  const { login, loginAs } = useAuth();
 
   const [tab, setTab] = useState<Tab>('signin');
 
@@ -26,6 +70,7 @@ export const LoginPage: React.FC = () => {
   const [siShowPwd,  setSiShowPwd]  = useState(false);
   const [siError,    setSiError]    = useState<string | null>(null);
   const [siLoading,  setSiLoading]  = useState(false);
+  const [loadingDemo, setLoadingDemo] = useState<string | null>(null);
 
   /* ── Register state ──────────────────────────────── */
   const [regName,     setRegName]     = useState('');
@@ -56,13 +101,26 @@ export const LoginPage: React.FC = () => {
     }
   };
 
+  const handleDemoTileClick = async (role: 'learner' | 'trainer' | 'manager' | 'admin') => {
+    setSiError(null);
+    setLoadingDemo(role);
+    try {
+      await loginAs(role);
+      navigate('/', { replace: true });
+    } catch (err: any) {
+      setSiError(err?.message || `Failed to sign in as ${role}.`);
+    } finally {
+      setLoadingDemo(null);
+    }
+  };
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setRegError(null);
 
-    if (!regName.trim())       { setRegError('Full name is required.');           return; }
-    if (!regEmail.trim())      { setRegError('Email address is required.');        return; }
-    if (regPassword.length < 8){ setRegError('Password must be at least 8 characters.'); return; }
+    if (!regName.trim())        { setRegError('Full name is required.');           return; }
+    if (!regEmail.trim())       { setRegError('Email address is required.');        return; }
+    if (regPassword.length < 8) { setRegError('Password must be at least 8 characters.'); return; }
     if (regPassword !== regConfirm) { setRegError('Passwords do not match.');      return; }
 
     setRegLoading(true);
@@ -77,7 +135,6 @@ export const LoginPage: React.FC = () => {
       const res = await authApi.register(payload);
       const data = res.data;
 
-      // Store token & user just like login
       localStorage.setItem('statskill_token', data.access_token);
       localStorage.setItem('statskill_user',  JSON.stringify({
         id:        data.user_id,
@@ -96,7 +153,6 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  /* ── UI helpers ──────────────────────────────────── */
   const inputCls = `w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-slate-50
                     placeholder:text-slate-400 focus:outline-none focus:ring-2
                     focus:ring-gov-blue/20 focus:border-gov-blue
@@ -111,27 +167,78 @@ export const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      <div className="flex-1 flex items-center justify-center px-4 py-10">
-        <div className="w-full max-w-md space-y-6">
+      <div className="flex-1 flex items-center justify-center px-4 py-8">
+        <div className="w-full max-w-md space-y-5">
 
-          {/* Branding */}
+          {/* Branding with modern logo clicking home */}
           <div className="text-center space-y-2">
-            <div className="inline-flex items-center justify-center h-14 w-14 rounded-xl bg-gov-blue text-white text-2xl font-bold shadow-lg shadow-gov-blue/20">
-              Σ
-            </div>
-            <h1 className="text-2xl font-bold text-navy-900 tracking-tight">StatSkill AI</h1>
-            <p className="text-sm text-slate-500 max-w-xs mx-auto">
-              AI-Powered Competency Development Platform for India's Official Statistical System
+            <button
+              onClick={() => navigate('/')}
+              className="inline-flex items-center justify-center p-1 rounded-2xl hover:scale-105 active:scale-95 transition-transform"
+              title="StatSkill AI Home"
+            >
+              <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-tr from-blue-700 via-indigo-600 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-gov-blue/25 ring-2 ring-white">
+                <Activity className="h-7 w-7 text-white stroke-[2.2]" />
+                <span className="absolute -bottom-1 -right-1 bg-amber-400 text-navy-900 rounded-full p-0.5 shadow-sm">
+                  <Sparkles className="w-3 h-3 fill-current" />
+                </span>
+              </div>
+            </button>
+            <h1 className="text-2xl font-extrabold text-navy-900 tracking-tight">StatSkill AI</h1>
+            <p className="text-xs text-slate-500 max-w-xs mx-auto">
+              Official Statistical System Intelligence &amp; Competency Platform (MoSPI / NSSTA)
             </p>
           </div>
 
-          {/* Card */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+          {/* Quick Demo Access (Small Tile Format) */}
+          <div className="bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs space-y-2">
+            <div className="flex items-center justify-between px-1">
+              <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-gov-blue" />
+                Quick Demo Access Tiles
+              </span>
+              <span className="text-[10px] text-slate-400">1-click test login</span>
+            </div>
 
+            <div className="grid grid-cols-2 gap-2">
+              {DEMO_TILES.map((t) => {
+                const Icon = t.icon;
+                const isLoadingThis = loadingDemo === t.role;
+                return (
+                  <button
+                    key={t.role}
+                    type="button"
+                    onClick={() => handleDemoTileClick(t.role as any)}
+                    disabled={!!loadingDemo}
+                    className={`flex items-center gap-2.5 p-2 rounded-lg border border-slate-200 bg-white ${t.bg} transition text-left group disabled:opacity-60 disabled:cursor-not-allowed`}
+                  >
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${t.iconBg}`}>
+                      {isLoadingThis ? (
+                        <div className="w-4 h-4 border-2 border-current/30 border-t-current rounded-full animate-spin" />
+                      ) : (
+                        <Icon className="w-4 h-4" />
+                      )}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs font-bold text-navy-900 truncate leading-tight group-hover:text-gov-blue">
+                        {t.title}
+                      </div>
+                      <div className="text-[10px] text-slate-500 truncate">
+                        {t.name}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Main Card */}
+          <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
             {/* Tab switcher */}
             <div className="flex gap-1 p-2 bg-slate-50 border-b border-slate-100">
-              <button className={tabCls(tab === 'signin')}   onClick={() => { setTab('signin');   setSiError(null); }}>
-                <LogIn  className="inline h-3.5 w-3.5 mr-1.5 -mt-0.5" />
+              <button className={tabCls(tab === 'signin')} onClick={() => { setTab('signin'); setSiError(null); }}>
+                <LogIn className="inline h-3.5 w-3.5 mr-1.5 -mt-0.5" />
                 Sign In
               </button>
               <button className={tabCls(tab === 'register')} onClick={() => { setTab('register'); setRegError(null); }}>
@@ -140,13 +247,13 @@ export const LoginPage: React.FC = () => {
               </button>
             </div>
 
-            {/* ── SIGN IN ────────────────────────────────── */}
+            {/* ── SIGN IN TAB ────────────────────────────── */}
             {tab === 'signin' && (
               <div className="p-6 space-y-4">
                 {siError && <ErrorBanner msg={siError} />}
 
                 <form onSubmit={handleSignIn} className="space-y-4">
-                  <Field label="Email Address">
+                  <Field label="Official Email Address">
                     <input
                       type="email" value={siEmail} autoComplete="email"
                       onChange={e => setSiEmail(e.target.value)}
@@ -184,7 +291,7 @@ export const LoginPage: React.FC = () => {
                 </form>
 
                 <p className="text-center text-xs text-slate-400 pt-1">
-                  Don't have an account?{' '}
+                  Don't have an official account?{' '}
                   <button
                     className="text-gov-blue font-semibold hover:underline"
                     onClick={() => setTab('register')}
@@ -195,15 +302,13 @@ export const LoginPage: React.FC = () => {
               </div>
             )}
 
-            {/* ── CREATE ACCOUNT ─────────────────────────── */}
+            {/* ── CREATE ACCOUNT TAB ─────────────────────── */}
             {tab === 'register' && (
               <div className="p-6 space-y-4">
-
-                {/* Success state */}
                 {regSuccess ? (
                   <div className="flex flex-col items-center gap-3 py-6 text-center">
                     <CheckCircle2 className="h-12 w-12 text-emerald-500" />
-                    <p className="text-base font-semibold text-navy-900">Account Created!</p>
+                    <p className="text-base font-semibold text-navy-900">Account Created Successfully!</p>
                     <p className="text-sm text-slate-500">Redirecting to your dashboard…</p>
                   </div>
                 ) : (
@@ -211,7 +316,6 @@ export const LoginPage: React.FC = () => {
                     {regError && <ErrorBanner msg={regError} />}
 
                     <form onSubmit={handleRegister} className="space-y-4">
-
                       <Field label="Full Name">
                         <input
                           type="text" value={regName} autoComplete="name"
