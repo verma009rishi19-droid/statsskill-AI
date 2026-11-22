@@ -38,6 +38,10 @@ Thumbs.db
 # Build
 frontend/dist/
 frontend/.vite/
+.vercel/
 
-# Uploads
+# Uploads & temporary artifacts
 backend/uploads/
+backend/app/uploads/
+*.tmp
+*.bak
