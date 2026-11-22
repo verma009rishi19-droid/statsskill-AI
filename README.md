@@ -4,6 +4,16 @@
 
 Built for MoSPI / NSSTA capacity building — competency assessments, skill-gap analysis, personalized learning paths, AI quiz generation, and virtual statistical labs.
 
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live%20Deployment-black?style=for-the-badge&logo=vercel)](https://rapid-harp-u5u9w8m.tmp.now)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-blue?style=for-the-badge&logo=github)](https://github.com/verma009rishi19-droid/statsskill-AI)
+[![Mobile Ready](https://img.shields.io/badge/Mobile-Android%20%7C%20iOS%20%7C%20PWA-teal?style=for-the-badge)](https://rapid-harp-u5u9w8m.tmp.now)
+
+---
+
+## 🌐 Live Application Deployment
+- **Live Vercel Web App**: [https://rapid-harp-u5u9w8m.tmp.now](https://rapid-harp-u5u9w8m.tmp.now)
+- **Claim & Connect to Vercel Account**: [Claim Deployment Link](https://vercel.com/claim-deployment?code=506257cc-e614-4124-a161-5283f64c4e74)
+
 ---
 
 ## Quick Start
