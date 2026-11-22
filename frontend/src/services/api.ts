@@ -1,7 +1,23 @@
 import axios from 'axios';
 
+// Detect whether running inside native mobile Capacitor shell (iOS or Android)
+const isNativeMobile = typeof window !== 'undefined' && 
+  (window.location.protocol === 'capacitor:' || window.location.protocol === 'file:' || (window as any).Capacitor?.isNativePlatform?.());
+
+// When running inside native Android / iOS or remote mobile client, support configurable API URL
+const getBaseUrl = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return `${import.meta.env.VITE_API_URL}/api/v1`;
+  }
+  if (isNativeMobile) {
+    // Default to localhost or configured backend host for mobile device testing
+    return 'http://10.0.2.2:8000/api/v1'; // 10.0.2.2 maps to host in Android emulator
+  }
+  return '/api/v1';
+};
+
 const api = axios.create({
-  baseURL: '/api/v1',
+  baseURL: getBaseUrl(),
   headers: {
     'Content-Type': 'application/json',
   },
@@ -48,22 +64,21 @@ export const profileApi = {
 };
 
 export const competencyApi = {
-  getDomains: () => api.get('/competencies/domains'),
-  getCompetencies: (domainId?: number) => api.get('/competencies', { params: { domain_id: domainId } }),
-  getRoleRequirements: (roleId: number) => api.get(`/competencies/role-requirements/${roleId}`),
-  getMyResults: () => api.get('/competencies/my-results'),
+  listDomains: () => api.get('/competencies/domains'),
+  listCompetencies: (domainId?: number) => api.get('/competencies', { params: { domain_id: domainId } }),
+  getCompetencyDetail: (id: number) => api.get(`/competencies/${id}`),
 };
 
 export const assessmentApi = {
   listAssessments: () => api.get('/assessments'),
   getAssessmentDetail: (id: number) => api.get(`/assessments/${id}`),
   submitAssessment: (data: any) => api.post('/assessments/submit', data),
-  getMyHistory: () => api.get('/assessments/attempts/my-history'),
+  getMyAttempts: () => api.get('/assessments/attempts/my-history'),
 };
 
 export const skillGapApi = {
-  getMyAnalysis: () => api.get('/skill-gaps/my-analysis'),
-  getUserAnalysis: (userId: number) => api.get(`/skill-gaps/user/${userId}`),
+  getMyGaps: () => api.get('/skill-gaps/my-gaps'),
+  getDepartmentGaps: (departmentId?: number) => api.get('/skill-gaps/department', { params: { department_id: departmentId } }),
 };
 
 export const recommendationApi = {

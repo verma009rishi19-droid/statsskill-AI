@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../features/auth/AuthContext';
+import { useMobileNav } from '../../features/nav/MobileNavContext';
 import { notificationApi } from '../../services/api';
 import { Notification } from '../../types';
 import {
-  Bell, Globe, LogOut, User, Shield, CheckCircle, AlertCircle, ChevronDown, RefreshCw,
-  Activity, Sparkles
+  Bell, Globe, LogOut, User, Shield, CheckCircle, ChevronDown,
+  Activity, Sparkles, Menu, X
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const { user, logout, loginAs, language, setLanguage } = useAuth();
+  const { isMobileMenuOpen, toggleMobileMenu } = useMobileNav();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifs, setShowNotifs] = useState(false);
   const [showRoleMenu, setShowRoleMenu] = useState(false);
@@ -43,45 +45,62 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
-      <div className="flex items-center justify-between px-6 py-2.5">
-        {/* Left: Branding & Logo that functions as Home button */}
-        <Link
-          to="/"
-          className="flex items-center gap-3 group transition-transform active:scale-95"
-          title="Return to StatSkill AI Home"
-        >
-          <div className="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-indigo-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-gov-blue/20 ring-2 ring-white group-hover:scale-105 transition-transform">
-            <Activity className="w-5 h-5 text-white stroke-[2.2]" />
-            <span className="absolute -bottom-1 -right-1 bg-amber-400 text-navy-900 rounded-full p-0.5 shadow-xs">
-              <Sparkles className="w-2.5 h-2.5 fill-current" />
-            </span>
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-lg font-extrabold text-navy-900 tracking-tight group-hover:text-gov-blue transition-colors">
-                StatSkill AI
-              </span>
-              <span className="text-[11px] px-2 py-0.5 rounded font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-                MoSPI / NSSTA
+      <div className="flex items-center justify-between px-3 sm:px-6 py-2.5">
+        {/* Left: Mobile Menu Toggle + Branding Logo */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Mobile hamburger toggle (visible only on mobile/tablet < 1024px) */}
+          <button
+            onClick={toggleMobileMenu}
+            className="lg:hidden p-1.5 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-100 active:scale-95 transition"
+            aria-label="Toggle mobile menu"
+            title="Navigation Menu"
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-5 h-5 text-slate-800" />
+            ) : (
+              <Menu className="w-5 h-5 text-slate-800" />
+            )}
+          </button>
+
+          {/* Logo & Brand title (Clicking functions as Home) */}
+          <Link
+            to="/"
+            className="flex items-center gap-2.5 group transition-transform active:scale-95"
+            title="Return to StatSkill AI Home"
+          >
+            <div className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-blue-700 via-indigo-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-gov-blue/20 ring-2 ring-white group-hover:scale-105 transition-transform">
+              <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-white stroke-[2.2]" />
+              <span className="absolute -bottom-1 -right-1 bg-amber-400 text-navy-900 rounded-full p-0.5 shadow-xs">
+                <Sparkles className="w-2.5 h-2.5 fill-current" />
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 font-medium leading-none mt-0.5">
-              Official Statistical System Intelligence Platform
-            </p>
-          </div>
-        </Link>
+            <div>
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-base sm:text-lg font-extrabold text-navy-900 tracking-tight group-hover:text-gov-blue transition-colors">
+                  StatSkill AI
+                </span>
+                <span className="hidden sm:inline-block text-[10px] px-1.5 py-0.5 rounded font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+                  MoSPI / NSSTA
+                </span>
+              </div>
+              <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium leading-none mt-0.5 hidden xs:block">
+                Official Statistical Intelligence Platform
+              </p>
+            </div>
+          </Link>
+        </div>
 
-        {/* Right: Quick Role Switcher, Language, Notifications, User */}
-        <div className="flex items-center gap-3">
-          {/* Quick Demo Role Switcher */}
+        {/* Right: Quick Role Switcher, Language, Notifications, User Profile */}
+        <div className="flex items-center gap-1.5 sm:gap-3">
+          {/* Quick Demo Role Switcher (Compact on mobile) */}
           <div className="relative">
             <button
               onClick={() => setShowRoleMenu(!showRoleMenu)}
-              className="flex items-center gap-2 text-xs px-2.5 py-1.5 rounded-md border border-slate-300 bg-slate-50 hover:bg-slate-100 font-medium text-slate-700 transition"
+              className="flex items-center gap-1.5 text-xs px-2 sm:px-2.5 py-1.5 rounded-md border border-slate-300 bg-slate-50 hover:bg-slate-100 font-medium text-slate-700 transition"
               title="Switch demo persona"
             >
-              <Shield className="w-3.5 h-3.5 text-gov-blue" />
-              <span className="capitalize">{user?.role || 'Role'}</span>
+              <Shield className="w-3.5 h-3.5 text-gov-blue shrink-0" />
+              <span className="capitalize hidden sm:inline">{user?.role || 'Role'}</span>
               <ChevronDown className="w-3 h-3 text-slate-400" />
             </button>
 
@@ -112,11 +131,13 @@ export const Navbar: React.FC = () => {
           {/* Bilingual Language Switcher */}
           <button
             onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
-            className="flex items-center gap-1.5 text-xs px-2.5 py-1.5 rounded-md border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium transition"
+            className="flex items-center gap-1 text-xs px-2 sm:px-2.5 py-1.5 rounded-md border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium transition"
             title="Toggle Language: English / Hindi"
           >
-            <Globe className="w-3.5 h-3.5 text-slate-500" />
-            <span className="font-semibold">{language === 'en' ? 'हिन्दी' : 'English'}</span>
+            <Globe className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+            <span className="font-semibold text-[11px] sm:text-xs">
+              {language === 'en' ? 'हिन्दी' : 'EN'}
+            </span>
           </button>
 
           {/* Notifications Dropdown */}
@@ -126,7 +147,7 @@ export const Navbar: React.FC = () => {
                 setShowNotifs(!showNotifs);
                 if (!showNotifs && unreadCount > 0) markAllRead();
               }}
-              className="relative p-2 rounded-md hover:bg-slate-100 text-slate-600 transition"
+              className="relative p-1.5 sm:p-2 rounded-md hover:bg-slate-100 text-slate-600 transition"
               title="Notifications"
             >
               <Bell className="w-4 h-4" />
@@ -136,7 +157,7 @@ export const Navbar: React.FC = () => {
             </button>
 
             {showNotifs && (
-              <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in duration-100">
+              <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-white rounded-lg shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in duration-100">
                 <div className="flex items-center justify-between px-3 py-1.5 border-b border-slate-100">
                   <span className="text-xs font-bold text-navy-900">Notifications</span>
                   <span className="text-[11px] text-slate-500">{notifications.length} total</span>
@@ -171,19 +192,19 @@ export const Navbar: React.FC = () => {
           <div className="relative">
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-full hover:bg-slate-100 border border-slate-200 transition"
+              className="flex items-center gap-1.5 pl-1.5 sm:pl-2 pr-1 py-1 rounded-full hover:bg-slate-100 border border-slate-200 transition"
             >
-              <div className="w-7 h-7 rounded-full bg-gov-blue/10 text-gov-blue flex items-center justify-center font-bold text-xs">
+              <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gov-blue/10 text-gov-blue flex items-center justify-center font-bold text-xs">
                 {user?.full_name?.charAt(0) || 'U'}
               </div>
-              <span className="text-xs font-medium text-slate-700 max-w-[100px] truncate hidden sm:inline">
+              <span className="text-xs font-medium text-slate-700 max-w-[80px] sm:max-w-[100px] truncate hidden md:inline">
                 {user?.full_name || 'Official User'}
               </span>
-              <ChevronDown className="w-3 h-3 text-slate-400 mr-1" />
+              <ChevronDown className="w-3 h-3 text-slate-400 mr-0.5" />
             </button>
 
             {showProfileMenu && (
-              <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-slate-200 py-1.5 z-50">
+              <div className="absolute right-0 mt-2 w-52 sm:w-56 bg-white rounded-lg shadow-xl border border-slate-200 py-1.5 z-50">
                 <div className="px-3 py-2 border-b border-slate-100">
                   <p className="text-xs font-bold text-navy-900 truncate">{user?.full_name}</p>
                   <p className="text-[11px] text-slate-500 truncate">{user?.email}</p>

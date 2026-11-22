@@ -1,10 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../features/auth/AuthContext';
+import { useMobileNav } from '../../features/nav/MobileNavContext';
 import {
   LayoutDashboard, UserCheck, Award, Target, Compass, BookOpen,
   GraduationCap, Bot, FileQuestion, Terminal, BookmarkCheck, History,
-  BarChart3, Settings, ShieldCheck, ChevronRight
+  BarChart3, Settings, ShieldCheck, X
 } from 'lucide-react';
 
 interface NavItem {
@@ -17,6 +18,7 @@ interface NavItem {
 
 export const Sidebar: React.FC = () => {
   const { user } = useAuth();
+  const { isMobileMenuOpen, closeMobileMenu } = useMobileNav();
   const isAdmin = user?.role === 'admin' || user?.role === 'manager';
 
   const sections: { title: string; items: NavItem[] }[] = [
@@ -57,16 +59,30 @@ export const Sidebar: React.FC = () => {
     },
   ];
 
-  return (
-    <aside className="w-64 bg-white border-r border-slate-200 flex flex-col shrink-0 min-h-[calc(100vh-57px)]">
-      <div className="flex-1 py-4 px-3 space-y-6 overflow-y-auto">
+  const sidebarContent = (
+    <div className="flex flex-col h-full">
+      {/* Mobile drawer header with Close Button */}
+      <div className="lg:hidden p-3 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <span className="text-xs font-bold text-navy-900 uppercase tracking-wider">
+          Platform Navigation
+        </span>
+        <button
+          onClick={closeMobileMenu}
+          className="p-1 rounded-md text-slate-500 hover:text-slate-800 hover:bg-slate-200 transition"
+          aria-label="Close menu"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+
+      <div className="flex-1 py-3 px-3 space-y-5 overflow-y-auto">
         {sections.map((sec, sIdx) => {
           const visibleItems = sec.items.filter(item => !item.adminOnly || isAdmin);
           if (visibleItems.length === 0) return null;
 
           return (
             <div key={sIdx} className="space-y-1">
-              <div className="px-3 text-[10px] font-bold text-slate-700 tracking-wider">
+              <div className="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
                 {sec.title}
               </div>
               <div className="space-y-0.5">
@@ -76,6 +92,7 @@ export const Sidebar: React.FC = () => {
                     <NavLink
                       key={item.path}
                       to={item.path}
+                      onClick={closeMobileMenu}
                       className={({ isActive }) =>
                         `flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition ${
                           isActive
@@ -103,7 +120,7 @@ export const Sidebar: React.FC = () => {
       </div>
 
       {/* Footer System Info */}
-      <div className="p-3 border-t border-slate-200 bg-slate-50/50 text-[11px] text-slate-700">
+      <div className="p-3 border-t border-slate-200 bg-slate-50/50 text-[11px] text-slate-600">
         <div className="flex items-center justify-between font-medium">
           <span>StatSkill AI Engine</span>
           <span className="text-emerald-600 flex items-center gap-1">
@@ -111,10 +128,36 @@ export const Sidebar: React.FC = () => {
             Online
           </span>
         </div>
-        <div className="text-[10px] text-slate-700 mt-0.5">
-          PostgreSQL 18 | FastAPI | PyMuPDF
+        <div className="text-[10px] text-slate-400 mt-0.5">
+          MoSPI Official Statistical Intelligence
         </div>
       </div>
-    </aside>
+    </div>
+  );
+
+  return (
+    <>
+      {/* 1. Desktop Standard Sticky Sidebar (Visible >= 1024px) */}
+      <aside className="hidden lg:flex w-64 bg-white border-r border-slate-200 flex-col shrink-0 min-h-[calc(100vh-57px)]">
+        {sidebarContent}
+      </aside>
+
+      {/* 2. Mobile Responsive Slide-Over Drawer with Backdrop (Visible < 1024px when open) */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-navy-900/60 backdrop-blur-xs transition-opacity animate-in fade-in"
+            onClick={closeMobileMenu}
+            aria-hidden="true"
+          />
+
+          {/* Slide-over panel */}
+          <div className="relative w-72 max-w-[85vw] bg-white h-full shadow-2xl z-10 flex flex-col animate-in slide-in-from-left duration-200">
+            {sidebarContent}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
