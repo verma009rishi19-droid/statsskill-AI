@@ -26,7 +26,9 @@ const isNativeMobile = typeof window !== 'undefined' &&
 
 const getBaseUrl = () => {
   if (import.meta.env.VITE_API_URL) {
-    return `${import.meta.env.VITE_API_URL}/api/v1`;
+    const raw = import.meta.env.VITE_API_URL.trim();
+    const normalized = raw.startsWith('http://') || raw.startsWith('https://') ? raw : `https://${raw}`;
+    return `${normalized.replace(/\/+$/, '')}/api/v1`;
   }
   if (isNativeMobile) {
     return 'http://10.0.2.2:8000/api/v1';

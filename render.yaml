@@ -1,0 +1,46 @@
+services:
+  # ==============================================================================
+  # 1. StatSkill AI - FastAPI Backend Web Service
+  # ==============================================================================
+  - type: web
+    name: statskill-ai-backend
+    runtime: python
+    plan: free
+    region: oregon
+    rootDir: backend
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///./statskill_ai.db
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 1440
+      - key: PYTHON_VERSION
+        value: 3.11.9
+
+  # ==============================================================================
+  # 2. StatSkill AI - React Frontend Static Site
+  # ==============================================================================
+  - type: web
+    name: statskill-ai-frontend
+    runtime: static
+    plan: free
+    region: oregon
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    autoDeploy: true
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: statskill-ai-backend
+          property: host

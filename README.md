@@ -100,6 +100,35 @@ The web application will be accessible at: `http://localhost:5173`
 
 ---
 
+## 🚀 Cloud Deployment on Render
+
+This repository includes a pre-configured [`render.yaml`](render.yaml) Blueprint that provisions and connects both the **FastAPI Backend Web Service** and the **React Static Site**:
+
+### Method A: One-Click Render Blueprint (Recommended)
+1. Log in to your [Render Dashboard](https://dashboard.render.com/).
+2. Click **New +** > **Blueprint**.
+3. Connect your GitHub repository: `https://github.com/verma009rishi19-droid/statsskill-AI.git`.
+4. Render automatically parses `render.yaml` and sets up:
+   - **`statskill-ai-backend`**: Python FastAPI Web Service (`uvicorn app.main:app`)
+   - **`statskill-ai-frontend`**: React Static Site with SPA rewrites
+5. Click **Apply**. Both services will build and deploy with linked environment variables.
+
+### Method B: Manual Service Creation on Render
+- **Backend (Web Service)**:
+  - **Root Directory**: `backend`
+  - **Environment**: `Python 3`
+  - **Build Command**: `pip install -r requirements.txt`
+  - **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+  - **Health Check Path**: `/health`
+- **Frontend (Static Site)**:
+  - **Root Directory**: `frontend`
+  - **Build Command**: `npm install && npm run build`
+  - **Publish Directory**: `dist`
+  - **Rewrites Rule**: `/*` → `/index.html`
+  - **Environment Variable**: `VITE_API_URL` set to your backend Render URL (e.g. `https://statskill-ai-backend.onrender.com`)
+
+---
+
 ## Mobile Deployment (Android & iOS)
 
 The mobile client is built using Capacitor:
