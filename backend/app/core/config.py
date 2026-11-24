@@ -1,4 +1,5 @@
 import os
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import List
 
@@ -13,6 +14,20 @@ class Settings(BaseSettings):
     # Database — defaults to SQLite for local dev, /tmp for Vercel Serverless
     _default_db = "sqlite:////tmp/statskill_ai.db" if os.getenv("VERCEL") else "sqlite:///./statskill_ai.db"
     DATABASE_URL: str = os.getenv("DATABASE_URL", _default_db)
+
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
+    def validate_database_url(cls, v: str) -> str:
+        default_db = "sqlite:////tmp/statskill_ai.db" if os.getenv("VERCEL") else "sqlite:///./statskill_ai.db"
+        if not v or not isinstance(v, str) or not v.strip():
+            return default_db
+        url = v.strip()
+        is_cloud = bool(os.getenv("RENDER") or os.getenv("VERCEL"))
+        if is_cloud and ("127.0.0.1" in url or "localhost" in url):
+            return default_db
+        if url.startswith("postgres://"):
+            url = url.replace("postgres://", "postgresql://", 1)
+        return url
     
     # Security
     SECRET_KEY: str = os.getenv("SECRET_KEY", "statskill_ai_super_secret_jwt_key_2026_production_ready")
