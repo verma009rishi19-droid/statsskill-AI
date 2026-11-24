@@ -100,6 +100,24 @@ The web application will be accessible at: `http://localhost:5173`
 
 ---
 
+## ⚡ Deployment on Vercel
+
+The application is fully prepared for Vercel deployment with single-page app (SPA) rewrites pre-configured:
+
+### Quick Steps to Deploy on Vercel:
+1. Log in to [Vercel](https://vercel.com/) and click **Add New...** > **Project**.
+2. Select and import your GitHub repository: `https://github.com/verma009rishi19-droid/statsskill-AI.git`.
+3. In the project configuration:
+   - **Framework Preset**: `Vite`
+   - **Root Directory**: `frontend` *(or leave `./` — both are pre-configured via `vercel.json`)*
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+4. *(Optional)* In **Environment Variables**, add:
+   - `VITE_API_URL`: Your backend API URL (e.g. `https://statskill-ai-backend.onrender.com` or custom backend URL). If omitted, the frontend automatically activates its built-in offline mock fallback engine.
+5. Click **Deploy**.
+
+---
+
 ## 🚀 Cloud Deployment on Render
 
 This repository includes a pre-configured [`render.yaml`](render.yaml) Blueprint that provisions and connects both the **FastAPI Backend Web Service** and the **React Static Site**:
