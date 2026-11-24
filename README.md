@@ -2,16 +2,16 @@
 
 An AI-powered skill intelligence and adaptive competency development platform tailored for capacity building in India's Official Statistical System (MoSPI / NSSTA).
 
-[![Live Application](https://img.shields.io/badge/Live%20Demo-Available%20Online-success?style=for-the-badge&logo=vercel)](https://prompt-teal-76dj0ig.tmp.now)
 [![Repository](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/verma009rishi19-droid/statsskill-AI)
+[![Local Development](https://img.shields.io/badge/Local%20App-http%3A%2F%2Flocalhost%3A5173-success?style=for-the-badge&logo=vite)](http://localhost:5173)
 [![Mobile Ready](https://img.shields.io/badge/Mobile-Android%20%7C%20iOS%20%7C%20PWA-3880FF?style=for-the-badge&logo=capacitor)](frontend/android)
 
 ---
 
-## 🌐 Live Application
-- **Production URL**: [https://prompt-teal-76dj0ig.tmp.now](https://prompt-teal-76dj0ig.tmp.now)
-- **Claim Permanent Vercel Project**: [Claim Deployment Link](https://vercel.com/claim-deployment?code=6554e179-c5af-4df9-be11-73afe8a87c0f)
-- **Supported Platforms**: Desktop Browser, Android (PWA/Capacitor), iOS (Safari/PWA/Capacitor)
+## 💻 Local Testing & Access
+- **Web Application**: [http://localhost:5173](http://localhost:5173) (or [http://127.0.0.1:5173](http://127.0.0.1:5173))
+- **FastAPI Backend & Interactive API Docs**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- **Supported Platforms**: Desktop Browser, Mobile (PWA/Capacitor on Android & iOS)
 
 ---
 
