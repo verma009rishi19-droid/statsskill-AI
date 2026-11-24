@@ -102,19 +102,27 @@ The web application will be accessible at: `http://localhost:5173`
 
 ## ⚡ Deployment on Vercel
 
-The application is fully prepared for Vercel deployment with single-page app (SPA) rewrites pre-configured:
+The application is fully prepared for Vercel deployment supporting **both** the frontend Single Page Application (SPA) and the Python FastAPI Serverless Backend:
 
-### Quick Steps to Deploy on Vercel:
+### Option 1: Full-Stack on Vercel (Frontend + Serverless API)
+Deploy the entire application under a single Vercel project:
 1. Log in to [Vercel](https://vercel.com/) and click **Add New...** > **Project**.
 2. Select and import your GitHub repository: `https://github.com/verma009rishi19-droid/statsskill-AI.git`.
-3. In the project configuration:
-   - **Framework Preset**: `Vite`
-   - **Root Directory**: `frontend` *(or leave `./` — both are pre-configured via `vercel.json`)*
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-4. *(Optional)* In **Environment Variables**, add:
-   - `VITE_API_URL`: Your backend API URL (e.g. `https://statskill-ai-backend.onrender.com` or custom backend URL). If omitted, the frontend automatically activates its built-in offline mock fallback engine.
-5. Click **Deploy**.
+3. Keep the **Root Directory** as `./` (default).
+4. Vercel will automatically detect [`vercel.json`](vercel.json):
+   - **Frontend**: Built via `cd frontend && npm install && npm run build` and served from `frontend/dist`.
+   - **Backend API**: Hosted as Python Serverless Functions via [`api/index.py`](api/index.py) routing `/api/*`, `/docs`, `/openapi.json`, and `/health`.
+5. *(Optional)* Set environment variables in Vercel:
+   - `SECRET_KEY`: Random 32+ character string
+   - `DATABASE_URL`: Connection string for PostgreSQL (e.g. Neon, Supabase) or omit to use `/tmp/statskill_ai.db` SQLite.
+6. Click **Deploy**.
+
+### Option 2: Frontend-Only on Vercel (Connected to Render Backend)
+1. Import repository on Vercel.
+2. Set **Root Directory** to `frontend`.
+3. Add Environment Variable:
+   - `VITE_API_URL`: Your backend URL (e.g. `https://statskill-ai-backend.onrender.com`).
+4. Click **Deploy**.
 
 ---
 

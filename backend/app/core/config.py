@@ -10,11 +10,9 @@ class Settings(BaseSettings):
     VERSION: str = "1.0.0"
     API_V1_STR: str = "/api/v1"
     
-    # Database — defaults to SQLite for local dev (no server needed)
-    DATABASE_URL: str = os.getenv(
-        "DATABASE_URL",
-        "sqlite:///./statskill_ai.db"
-    )
+    # Database — defaults to SQLite for local dev, /tmp for Vercel Serverless
+    _default_db = "sqlite:////tmp/statskill_ai.db" if os.getenv("VERCEL") else "sqlite:///./statskill_ai.db"
+    DATABASE_URL: str = os.getenv("DATABASE_URL", _default_db)
     
     # Security
     SECRET_KEY: str = os.getenv("SECRET_KEY", "statskill_ai_super_secret_jwt_key_2026_production_ready")
@@ -41,7 +39,8 @@ class Settings(BaseSettings):
     IGOT_DEMO_MODE: bool = os.getenv("IGOT_DEMO_MODE", "true").lower() == "true"
     
     # File Storage
-    UPLOAD_DIR: str = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "uploads")
+    _default_upload = "/tmp/uploads" if os.getenv("VERCEL") else os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "uploads")
+    UPLOAD_DIR: str = os.getenv("UPLOAD_DIR", _default_upload)
     MAX_UPLOAD_SIZE_MB: int = 25
 
 settings = Settings()
