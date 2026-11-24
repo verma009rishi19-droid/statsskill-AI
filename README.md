@@ -1,198 +1,170 @@
 # StatSkill AI
 
-An AI-powered skill intelligence and adaptive competency development platform tailored for capacity building in India's Official Statistical System (MoSPI / NSSTA).
+**AI-Powered Skill Intelligence & Adaptive Capacity Building Platform for India's Official Statistical System (MoSPI · NSSTA · ISS · SSS)**
 
-[![Repository](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/verma009rishi19-droid/statsskill-AI)
-[![Local Development](https://img.shields.io/badge/Local%20App-http%3A%2F%2Flocalhost%3A5173-success?style=for-the-badge&logo=vite)](http://localhost:5173)
+[![Live Application](https://img.shields.io/badge/Live%20App-Vercel-000000?style=for-the-badge&logo=vercel)](https://statsskill-85em0hupm-verma009rishi19-droid.vercel.app/login)
+[![Live API Docs](https://img.shields.io/badge/API%20Docs-Render%20Swagger-46E3B7?style=for-the-badge&logo=render)](https://statsskill-ai-1.onrender.com/docs)
+[![API Health](https://img.shields.io/badge/API%20Status-Healthy-22c55e?style=for-the-badge&logo=fastapi)](https://statsskill-ai-1.onrender.com/health)
 [![Mobile Ready](https://img.shields.io/badge/Mobile-Android%20%7C%20iOS%20%7C%20PWA-3880FF?style=for-the-badge&logo=capacitor)](frontend/android)
 
 ---
 
-## 💻 Local Testing & Access
-- **Web Application**: [http://localhost:5173](http://localhost:5173) (or [http://127.0.0.1:5173](http://127.0.0.1:5173))
-- **FastAPI Backend & Interactive API Docs**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
-- **Supported Platforms**: Desktop Browser, Mobile (PWA/Capacitor on Android & iOS)
+## 🌐 Live Production Deployment
+
+| Service | Platform | URL |
+|---|---|---|
+| **Web Application (Frontend)** | Vercel | [https://statsskill-85em0hupm-verma009rishi19-droid.vercel.app/login](https://statsskill-85em0hupm-verma009rishi19-droid.vercel.app/login) |
+| **REST API & Swagger Docs** | Render | [https://statsskill-ai-1.onrender.com/docs](https://statsskill-ai-1.onrender.com/docs) |
+| **Health Check Endpoint** | Render | [https://statsskill-ai-1.onrender.com/health](https://statsskill-ai-1.onrender.com/health) |
+
+> **Note**: The backend is hosted on Render's free tier and may take ~30–50 seconds to cold-start on the first request after 15 minutes of inactivity.
 
 ---
 
-## 👥 Seeded Demo Accounts (Role-Based Access Control)
+## 👥 Role-Based Access Control (RBAC) & Demo Accounts
 
-Each role is equipped with an independent, specialized dashboard and verified permissions:
+StatSkill AI enforces JWT-authenticated, role-based access control on both the FastAPI backend and React frontend. Each role receives a dedicated dashboard, navigation, and permission boundary:
 
-| Role | Name | Official Email | Password | Primary Capabilities |
+| Role | Officer Name | Email | Password | Core Capabilities |
 |---|---|---|---|---|
-| **Admin** | Vikram Patel | `admin@statskill.gov.in` | `Admin@2026` | Multi-role user governance, audit trail logs, system integrations, iGOT sync |
-| **Manager** | Anita Desai | `manager@mospi.gov.in` | `Manager@2026` | Division readiness heatmap, training nomination approvals, officer assignments, CSV exports |
-| **Learner** | Priya Sharma | `learner@mospi.gov.in` | `Learner@2026` | Diagnostic assessments, competency gap radar, adaptive learning roadmap, AI assistant |
-| **Trainer** | Dr. Rajesh Kumar | `trainer@nssta.gov.in` | `Trainer@2026` | Course & curriculum authoring, NSSTA batch management, AI quiz studio generator |
-| **Analyst** | Kavita Nair | `analyst@mospi.gov.in` | `Analyst@2026` | Read-only statistical governance reports, predictive workforce forecasts, macro analytics |
+| **Admin** | Vikram Patel | `admin@statskill.gov.in` | `Admin@2026` | User & role governance, audit logs, system settings, iGOT Karmayogi sync |
+| **Manager** | Anita Desai | `manager@mospi.gov.in` | `Manager@2026` | Division skill-gap heatmap, training approvals, learning path assignments, CSV exports |
+| **Learner** | Priya Sharma | `learner@mospi.gov.in` | `Learner@2026` | Competency profile, skill-gap diagnostics, adaptive learning roadmap, AI assistant |
+| **Trainer** | Dr. Rajesh Kumar | `trainer@nssta.gov.in` | `Trainer@2026` | Course & curriculum authoring, NSSTA programme cohorts, AI Quiz Studio |
+| **Analyst** | Kavita Nair | `analyst@mospi.gov.in` | `Analyst@2026` | Read-only macro analytics, cadre readiness trends, filtered report downloads |
 
 ---
 
-## Key Highlights
+## ✨ Platform Capabilities
 
-- **Competency Intelligence**: Standardized competency frameworks mapped across national statistical roles (SSS/ISS cadres).
-- **Skill Gap Diagnostics**: Diagnostic assessments with instant analytics, scorecards, and development recommendations.
-- **AI-Powered Learning Assistance**: Grounded queries citing official statistical manuals, sampling methodologies, and survey standards.
-- **Instant Quiz Engine**: Direct document-to-assessment pipeline generating multiple-choice evaluations with immediate review.
-- **Cross-Platform Native Shells**: Full mobile responsiveness plus configured Capacitor native projects for Android and iOS.
+- **Core Competency Intelligence**: Standardized statistical competency frameworks mapped to MoSPI / ISS / SSS roles with diagnostic proficiency assessments and automated gap scoring.
+- **Adaptive Learning & Catalogues**: Personalized learning paths integrating **NSSTA** programmes and **iGOT Karmayogi** course catalogues with progress tracking.
+- **AI Learning Assistant**: Grounded statistical assistant referencing official survey manuals, sampling theory, CPI/GDP methodologies, and Data Quality Assurance Frameworks (DQAF).
+- **AI Quiz Studio**: Document-to-assessment pipeline (PDF, DOCX, PPTX, TXT) generating instant multiple-choice evaluations.
+- **Interactive Virtual Lab**: Browser-accessible sandbox for practical statistical computing and data validation exercises.
+- **Analytics & Governance**: Real-time readiness metrics, division-level heatmaps, and exportable reports.
+- **Resilient Architecture**: Includes an automatic offline fallback engine so the UI remains responsive even during backend cold starts or disconnected sessions.
 
 ---
 
-## Repository Structure
+## 🛠️ Tech Stack
+
+| Layer | Technologies |
+|---|---|
+| **Frontend** | React 18, TypeScript, Vite, Tailwind CSS, Recharts, Lucide Icons, React Router v6 |
+| **Backend** | Python 3.11, FastAPI, SQLAlchemy 2, Pydantic v2, PyJWT, Bcrypt, Uvicorn |
+| **AI & Document Processing** | Google GenAI (`google-genai`), PyMuPDF, `python-docx`, `python-pptx`, Pandas, scikit-learn |
+| **Database** | PostgreSQL (production-ready) / SQLite (zero-config default) |
+| **Mobile & PWA** | Capacitor (Android & iOS), Web App Manifest |
+
+---
+
+## 📁 Repository Structure
 
 ```text
 statsskill-ai/
-├── frontend/             # React 18 + TypeScript + Vite + Tailwind CSS
-│   ├── android/          # Native Android Capacitor workspace
-│   ├── ios/              # Native iOS Xcode workspace
-│   ├── src/              # Application source code
-│   │   ├── app/          # Root application and route configuration
-│   │   ├── components/   # Reusable UI components and navigation
-│   │   ├── features/     # State management and context providers
-│   │   ├── layouts/      # Responsive multi-device layouts
-│   │   ├── pages/        # Core platform modules and dashboards
-│   │   ├── services/     # Typed API clients
-│   │   └── types/        # TypeScript data definitions
-│   └── public/           # Static assets, Web App Manifest, Service Worker
+├── frontend/               # React 18 + TypeScript + Vite SPA (deployed on Vercel)
+│   ├── android/            # Native Android Capacitor project
+│   ├── ios/                # Native iOS Xcode project
+│   ├── src/
+│   │   ├── app/            # Root router, RBAC route guards, app shell
+│   │   ├── components/     # Reusable UI primitives and charts
+│   │   ├── features/       # Auth & state contexts
+│   │   ├── layouts/        # Role-specific sidebar and responsive layouts
+│   │   ├── pages/          # 15 core platform modules & role dashboards
+│   │   ├── services/       # Axios API client & offline fallback engine
+│   │   └── types/          # Strict TypeScript interfaces
+│   └── vercel.json         # SPA rewrite rules
 │
-├── backend/              # FastAPI application server
+├── backend/                # FastAPI REST API (deployed on Render)
 │   ├── app/
-│   │   ├── api/          # Modular API endpoints
-│   │   ├── core/         # Settings, database session, authentication
-│   │   ├── models/       # Relational database models
-│   │   ├── schemas/      # Pydantic data validation schemas
-│   │   └── services/     # Business logic, AI integration, and assessment engine
-│   ├── requirements.txt  # Python package specifications
-│   └── tests/            # Automated test suite
+│   │   ├── api/            # Modular route handlers (auth, profiles, courses, quizzes, etc.)
+│   │   ├── core/           # Config, database session, JWT security, seed data
+│   │   ├── models/         # SQLAlchemy ORM models
+│   │   ├── schemas/        # Pydantic v2 validation schemas
+│   │   └── services/       # Business logic, AI provider, document parser, lab engine
+│   ├── tests/              # Pytest integration & RBAC test suite
+│   └── requirements.txt    # Backend Python dependencies
 │
-├── scripts/              # Database initialization and management utilities
-└── docker-compose.yml    # Container orchestration specification
+├── scripts/                # Local PostgreSQL & utility scripts
+├── render.yaml             # Render Infrastructure-as-Code Blueprint
+├── vercel.json             # Root Vercel SPA configuration
+└── docker-compose.yml      # Local container orchestration
 ```
 
 ---
 
-## Local Development Setup
+## 💻 Local Development Setup
 
-### 1. Backend Service
+### 1. Backend (FastAPI)
 ```bash
 cd backend
 python -m venv venv
-# Windows:
+
+# Windows
 .\venv\Scripts\activate
-# Linux / macOS:
+# macOS / Linux
 # source venv/bin/activate
 
 pip install -r requirements.txt
 uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
+API & Swagger UI: `http://127.0.0.1:8000/docs`
 
-The REST API documentation will be accessible at: `http://127.0.0.1:8000/docs`
-
-### 2. Frontend Web Application
+### 2. Frontend (Vite + React)
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-
-The web application will be accessible at: `http://localhost:5173`
-
----
-
-## ⚡ Deployment on Vercel
-
-The application is fully prepared for Vercel deployment supporting **both** the frontend Single Page Application (SPA) and the Python FastAPI Serverless Backend:
-
-### Option 1: Full-Stack on Vercel (Frontend + Serverless API)
-Deploy the entire application under a single Vercel project:
-1. Log in to [Vercel](https://vercel.com/) and click **Add New...** > **Project**.
-2. Select and import your GitHub repository: `https://github.com/verma009rishi19-droid/statsskill-AI.git`.
-3. Keep the **Root Directory** as `./` (default).
-4. Vercel will automatically detect [`vercel.json`](vercel.json):
-   - **Frontend**: Built via `cd frontend && npm install && npm run build` and served from `frontend/dist`.
-   - **Backend API**: Hosted as Python Serverless Functions via [`api/index.py`](api/index.py) routing `/api/*`, `/docs`, `/openapi.json`, and `/health`.
-5. *(Optional)* Set environment variables in Vercel:
-   - `SECRET_KEY`: Random 32+ character string
-   - `DATABASE_URL`: Connection string for PostgreSQL (e.g. Neon, Supabase) or omit to use `/tmp/statskill_ai.db` SQLite.
-6. Click **Deploy**.
-
-### Option 2: Frontend-Only on Vercel (Connected to Render Backend)
-1. Import repository on Vercel.
-2. Set **Root Directory** to `frontend`.
-3. Add Environment Variable:
-   - `VITE_API_URL`: Your backend URL (e.g. `https://statskill-ai-backend.onrender.com`).
-4. Click **Deploy**.
+Web Application: `http://localhost:5173`
 
 ---
 
-## 🚀 Cloud Deployment on Render
+## ☁️ Cloud Deployment Architecture
 
-This repository includes a pre-configured [`render.yaml`](render.yaml) Blueprint that provisions and connects both the **FastAPI Backend Web Service** and the **React Static Site**:
+### Frontend on Vercel
+- **Root Directory**: `frontend` (or `./` via root [`vercel.json`](vercel.json))
+- **Build Command**: `npm run build`
+- **Output Directory**: `dist`
+- **Environment Variable**:
+  - `VITE_API_URL` = `https://statsskill-ai-1.onrender.com`
 
-### Method A: One-Click Render Blueprint (Recommended)
-1. Log in to your [Render Dashboard](https://dashboard.render.com/).
-2. Click **New +** > **Blueprint**.
-3. Connect your GitHub repository: `https://github.com/verma009rishi19-droid/statsskill-AI.git`.
-4. Render automatically parses `render.yaml` and sets up:
-   - **`statskill-ai-backend`**: Python FastAPI Web Service (`uvicorn app.main:app`)
-   - **`statskill-ai-frontend`**: React Static Site with SPA rewrites
-5. Click **Apply**. Both services will build and deploy with linked environment variables.
-
-### Method B: Manual Service Creation on Render
-- **Backend (Web Service)**:
-  - **Root Directory**: `backend`
-  - **Environment**: `Python 3`
-  - **Build Command**: `pip install -r requirements.txt`
-  - **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-  - **Health Check Path**: `/health`
-- **Frontend (Static Site)**:
-  - **Root Directory**: `frontend`
-  - **Build Command**: `npm install && npm run build`
-  - **Publish Directory**: `dist`
-  - **Rewrites Rule**: `/*` → `/index.html`
-  - **Environment Variable**: `VITE_API_URL` set to your backend Render URL (e.g. `https://statskill-ai-backend.onrender.com`)
+### Backend on Render
+- Pre-configured via [`render.yaml`](render.yaml), [`build.sh`](build.sh), [`start.sh`](start.sh), and [`.python-version`](.python-version) (`3.11.9`).
+- **Build Command**: `./build.sh` (or `pip install -r requirements.txt`)
+- **Start Command**: `./start.sh` (or `uvicorn app.main:app --host 0.0.0.0 --port $PORT`)
+- **Health Check Path**: `/health`
 
 ---
 
-## Mobile Deployment (Android & iOS)
-
-The mobile client is built using Capacitor:
+## 🧪 Testing & Quality Assurance
 
 ```bash
-cd frontend
-
-# Build production web bundle
-npm run build
-
-# Synchronize assets with native projects
-npx cap sync
-
-# Open Android Studio
-npx cap open android
-
-# Open Xcode (macOS only)
-npx cap open ios
-```
-
----
-
-## Testing & Quality Assurance
-
-Run the automated backend test suite:
-```bash
+# Backend automated test suite (13 tests)
 cd backend
 pytest tests/ -v
-```
 
-Run frontend static type validation:
-```bash
+# Frontend TypeScript check & production build
 cd frontend
+npm run lint
 npm run build
 ```
 
 ---
 
-## License
+## 📱 Mobile Builds (Capacitor)
 
-This repository is maintained for educational and training purposes aligned with official statistical system capacity development.
+```bash
+cd frontend
+npm run build
+npx cap sync
+npx cap open android   # Android Studio
+npx cap open ios       # Xcode (macOS)
+```
+
+---
+
+## 📄 License
+
+Maintained for official statistical capacity building, training, and research aligned with India's Official Statistical System.
