@@ -1,8 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 
 class AssessmentQuestionPublic(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     competency_id: int
     question_text: str
@@ -10,10 +12,9 @@ class AssessmentQuestionPublic(BaseModel):
     difficulty: str
     points: int
 
-    class Config:
-        from_attributes = True
-
 class AssessmentDetailResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     title: str
     description: Optional[str] = None
@@ -26,10 +27,9 @@ class AssessmentDetailResponse(BaseModel):
     total_questions: int
     questions: List[AssessmentQuestionPublic] = []
 
-    class Config:
-        from_attributes = True
-
 class AssessmentSummaryResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     title: str
     description: Optional[str] = None
@@ -39,9 +39,6 @@ class AssessmentSummaryResponse(BaseModel):
     passing_score_pct: float
     total_questions: int
     created_at: datetime
-
-    class Config:
-        from_attributes = True
 
 class QuestionAnswerSubmission(BaseModel):
     question_id: int

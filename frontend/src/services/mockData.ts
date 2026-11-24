@@ -36,6 +36,15 @@ export const MOCK_USERS: Record<string, any> = {
     is_verified: true,
     created_at: '2026-01-15T10:00:00Z',
   },
+  analyst: {
+    id: 5,
+    email: 'analyst@mospi.gov.in',
+    full_name: 'Kavita Nair',
+    role: 'analyst',
+    is_active: true,
+    is_verified: true,
+    created_at: '2026-01-15T10:00:00Z',
+  },
 };
 
 export const MOCK_DEPARTMENTS = [

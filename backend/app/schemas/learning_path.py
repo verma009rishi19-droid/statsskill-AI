@@ -1,8 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 
 class LearningPathModuleResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     title: str
     description: Optional[str] = None
@@ -20,10 +22,9 @@ class LearningPathModuleResponse(BaseModel):
     status: str = "not_started"  # not_started, in_progress, completed
     progress_pct: float = 0.0
 
-    class Config:
-        from_attributes = True
-
 class LearningPathResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     user_id: int
     title: str
@@ -35,9 +36,6 @@ class LearningPathResponse(BaseModel):
     estimated_hours: float
     created_at: datetime
     modules: List[LearningPathModuleResponse] = []
-
-    class Config:
-        from_attributes = True
 
 class UpdateModuleProgressRequest(BaseModel):
     module_id: int

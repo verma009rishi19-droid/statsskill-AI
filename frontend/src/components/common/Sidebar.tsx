@@ -13,13 +13,12 @@ interface NavItem {
   path: string;
   icon: React.ElementType;
   badge?: string;
-  adminOnly?: boolean;
+  roles?: string[];
 }
 
 export const Sidebar: React.FC = () => {
   const { user } = useAuth();
   const { isMobileMenuOpen, closeMobileMenu } = useMobileNav();
-  const isAdmin = user?.role === 'admin' || user?.role === 'manager';
 
   const sections: { title: string; items: NavItem[] }[] = [
     {
@@ -54,7 +53,7 @@ export const Sidebar: React.FC = () => {
       items: [
         { name: '13. Analytics & Reports', path: '/analytics', icon: BarChart3 },
         { name: '14. Profile & Settings', path: '/settings', icon: Settings },
-        { name: '15. Administration', path: '/admin', icon: ShieldCheck, adminOnly: true, badge: 'Admin' },
+        { name: '15. Administration', path: '/admin', icon: ShieldCheck, roles: ['admin'], badge: 'Admin' },
       ],
     },
   ];
@@ -77,7 +76,7 @@ export const Sidebar: React.FC = () => {
 
       <div className="flex-1 py-3 px-3 space-y-5 overflow-y-auto">
         {sections.map((sec, sIdx) => {
-          const visibleItems = sec.items.filter(item => !item.adminOnly || isAdmin);
+          const visibleItems = sec.items.filter(item => !item.roles || (user?.role && item.roles.includes(user.role)));
           if (visibleItems.length === 0) return null;
 
           return (

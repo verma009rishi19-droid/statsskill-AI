@@ -1,18 +1,19 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 
 class CompetencyDomainResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     name: str
     code: str
     description: Optional[str] = None
     display_order: int
 
-    class Config:
-        from_attributes = True
-
 class CompetencyResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     domain_id: int
     name: str
@@ -22,10 +23,9 @@ class CompetencyResponse(BaseModel):
     scale_max: int
     proficiency_rubric: Dict[str, str] = {}
 
-    class Config:
-        from_attributes = True
-
 class RoleCompetencyRequirementResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     job_role_id: int
     competency_id: int
@@ -35,10 +35,9 @@ class RoleCompetencyRequirementResponse(BaseModel):
     prerequisites: List[str] = []
     competency: Optional[CompetencyResponse] = None
 
-    class Config:
-        from_attributes = True
-
 class CompetencyResultResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     user_id: int
     competency_id: int
@@ -48,9 +47,6 @@ class CompetencyResultResponse(BaseModel):
     last_assessed_at: datetime
     supporting_notes: Optional[str] = None
     competency: Optional[CompetencyResponse] = None
-
-    class Config:
-        from_attributes = True
 
 class SkillGapItem(BaseModel):
     competency_id: int

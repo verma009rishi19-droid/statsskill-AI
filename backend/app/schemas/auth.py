@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field, ConfigDict
 from typing import Optional
 from datetime import datetime
 
@@ -17,18 +17,20 @@ class TokenPayload(BaseModel):
 
 class LoginRequest(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(min_length=1, max_length=128)
 
 class UserCreate(BaseModel):
     email: EmailStr
-    password: str
-    full_name: str
+    password: str = Field(min_length=6, max_length=128)
+    full_name: str = Field(min_length=2, max_length=150)
     role: Optional[str] = "learner"
     designation: Optional[str] = "Statistical Officer"
     department_id: Optional[int] = None
     job_role_id: Optional[int] = None
 
 class UserResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     email: str
     full_name: str
@@ -36,6 +38,3 @@ class UserResponse(BaseModel):
     is_active: bool
     is_verified: bool
     created_at: datetime
-
-    class Config:
-        from_attributes = True

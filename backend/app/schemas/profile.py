@@ -1,26 +1,24 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 
 class DepartmentResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     name: str
     code: str
     description: Optional[str] = None
 
-    class Config:
-        from_attributes = True
-
 class JobRoleResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     department_id: int
     title: str
     code: str
     description: Optional[str] = None
     cadre: str
-
-    class Config:
-        from_attributes = True
 
 class OfficialProfileUpdate(BaseModel):
     designation: Optional[str] = None
@@ -36,6 +34,8 @@ class OfficialProfileUpdate(BaseModel):
     career_objectives: Optional[str] = None
 
 class OfficialProfileResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     user_id: int
     designation: str
@@ -57,6 +57,3 @@ class OfficialProfileResponse(BaseModel):
 
     department: Optional[DepartmentResponse] = None
     job_role: Optional[JobRoleResponse] = None
-
-    class Config:
-        from_attributes = True

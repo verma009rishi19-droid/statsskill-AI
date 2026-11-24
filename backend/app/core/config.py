@@ -1,8 +1,10 @@
 import os
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import List
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", case_sensitive=True, extra="ignore")
+
     PROJECT_NAME: str = "StatSkill AI"
     PROJECT_DESCRIPTION: str = "AI-Powered Skill Intelligence and Personalized Learning Platform for India's Official Statistical System"
     VERSION: str = "1.0.0"
@@ -24,7 +26,10 @@ class Settings(BaseSettings):
         "http://localhost:3000",
         "http://localhost:5173",
         "http://127.0.0.1:5173",
-        "http://localhost:8000"
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "https://fast-bromine-xflff8t.tmp.now",
+        "https://statskill-ai.vercel.app"
     ]
     
     # AI & Integrations
@@ -40,9 +45,5 @@ class Settings(BaseSettings):
     # File Storage
     UPLOAD_DIR: str = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "uploads")
     MAX_UPLOAD_SIZE_MB: int = 25
-    
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
 
 settings = Settings()

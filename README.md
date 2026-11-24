@@ -2,16 +2,30 @@
 
 An AI-powered skill intelligence and adaptive competency development platform tailored for capacity building in India's Official Statistical System (MoSPI / NSSTA).
 
-[![Live Application](https://img.shields.io/badge/Live%20Demo-Available%20Online-success?style=for-the-badge&logo=vercel)](https://fast-bromine-xflff8t.tmp.now)
+[![Live Application](https://img.shields.io/badge/Live%20Demo-Available%20Online-success?style=for-the-badge&logo=vercel)](https://prompt-beryl-qluhpiz.tmp.now)
 [![Repository](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/verma009rishi19-droid/statsskill-AI)
 [![Mobile Ready](https://img.shields.io/badge/Mobile-Android%20%7C%20iOS%20%7C%20PWA-3880FF?style=for-the-badge&logo=capacitor)](frontend/android)
 
 ---
 
 ## 🌐 Live Application
-- **Production URL**: [https://fast-bromine-xflff8t.tmp.now](https://fast-bromine-xflff8t.tmp.now)
-- **Claim Permanent Vercel Project**: [Claim Deployment Link](https://vercel.com/claim-deployment?code=cd09f21f-c903-4169-b35b-3de701caf770)
+- **Production URL**: [https://prompt-beryl-qluhpiz.tmp.now](https://prompt-beryl-qluhpiz.tmp.now)
+- **Claim Permanent Vercel Project**: [Claim Deployment Link](https://vercel.com/claim-deployment?code=29e98520-c1c7-4054-b437-6462c8fac3fa)
 - **Supported Platforms**: Desktop Browser, Android (PWA/Capacitor), iOS (Safari/PWA/Capacitor)
+
+---
+
+## 👥 Seeded Demo Accounts (Role-Based Access Control)
+
+Each role is equipped with an independent, specialized dashboard and verified permissions:
+
+| Role | Name | Official Email | Password | Primary Capabilities |
+|---|---|---|---|---|
+| **Admin** | Vikram Patel | `admin@statskill.gov.in` | `Admin@2026` | Multi-role user governance, audit trail logs, system integrations, iGOT sync |
+| **Manager** | Anita Desai | `manager@mospi.gov.in` | `Manager@2026` | Division readiness heatmap, training nomination approvals, officer assignments, CSV exports |
+| **Learner** | Priya Sharma | `learner@mospi.gov.in` | `Learner@2026` | Diagnostic assessments, competency gap radar, adaptive learning roadmap, AI assistant |
+| **Trainer** | Dr. Rajesh Kumar | `trainer@nssta.gov.in` | `Trainer@2026` | Course & curriculum authoring, NSSTA batch management, AI quiz studio generator |
+| **Analyst** | Kavita Nair | `analyst@mospi.gov.in` | `Analyst@2026` | Read-only statistical governance reports, predictive workforce forecasts, macro analytics |
 
 ---
 

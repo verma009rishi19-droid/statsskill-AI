@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 
@@ -45,16 +45,17 @@ class QuizSaveRequest(BaseModel):
     questions: List[QuestionDraft]
 
 class QuizQuestionPublic(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     question_text: str
     options: List[str]
     difficulty: str
     source_reference: Optional[str] = None
 
-    class Config:
-        from_attributes = True
-
 class QuizDetailResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     title: str
     description: Optional[str] = None
@@ -64,9 +65,6 @@ class QuizDetailResponse(BaseModel):
     competency_name: Optional[str] = None
     created_at: datetime
     questions: List[QuizQuestionPublic] = []
-
-    class Config:
-        from_attributes = True
 
 class QuizSubmissionAnswer(BaseModel):
     question_id: int

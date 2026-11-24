@@ -8,7 +8,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  loginAs: (role: 'learner' | 'trainer' | 'manager' | 'admin') => Promise<void>;
+  loginAs: (role: 'learner' | 'trainer' | 'manager' | 'admin' | 'analyst') => Promise<void>;
   logout: () => void;
   language: string;
   setLanguage: (lang: string) => void;
@@ -56,12 +56,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const loginAs = async (role: 'learner' | 'trainer' | 'manager' | 'admin') => {
+  const loginAs = async (role: 'learner' | 'trainer' | 'manager' | 'admin' | 'analyst') => {
     const creds = {
       learner: { email: 'learner@mospi.gov.in', password: 'Learner@2026' },
       trainer: { email: 'trainer@nssta.gov.in', password: 'Trainer@2026' },
       manager: { email: 'manager@mospi.gov.in', password: 'Manager@2026' },
       admin: { email: 'admin@statskill.gov.in', password: 'Admin@2026' },
+      analyst: { email: 'analyst@mospi.gov.in', password: 'Analyst@2026' },
     };
     const c = creds[role];
     await login(c.email, c.password);

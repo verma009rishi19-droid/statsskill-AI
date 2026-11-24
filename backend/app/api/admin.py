@@ -44,7 +44,7 @@ def update_user_role(
     current_user: User = Depends(require_role([RoleEnum.ADMIN])),
     db: Session = Depends(get_db)
 ):
-    if new_role not in [RoleEnum.LEARNER, RoleEnum.TRAINER, RoleEnum.MANAGER, RoleEnum.ADMIN]:
+    if new_role not in [RoleEnum.LEARNER, RoleEnum.TRAINER, RoleEnum.MANAGER, RoleEnum.ADMIN, RoleEnum.ANALYST]:
         raise HTTPException(status_code=400, detail="Invalid role specified")
 
     user = db.query(User).filter(User.id == user_id).first()

@@ -19,8 +19,33 @@ def seed_all():
     db = SessionLocal()
     try:
         print("Checking if database already has seed data...")
-        if db.query(User).filter_by(email="admin@statskill.gov.in").first():
-            print("Database already seeded. Skipping initial seeding.")
+        admin_user = db.query(User).filter_by(email="admin@statskill.gov.in").first()
+        if admin_user:
+            # Ensure 5th role (analyst) exists
+            if not db.query(User).filter_by(email="analyst@mospi.gov.in").first():
+                analyst_user = User(
+                    email="analyst@mospi.gov.in",
+                    hashed_password=get_password_hash("Analyst@2026"),
+                    full_name="Kavita Nair",
+                    role=RoleEnum.ANALYST,
+                    is_active=True,
+                    is_verified=True
+                )
+                db.add(analyst_user)
+                db.flush()
+                analyst_profile = OfficialProfile(
+                    user_id=analyst_user.id,
+                    designation="Research Officer / Statistical Data Analyst",
+                    cadre="ISS",
+                    state_posting="New Delhi",
+                    work_experience_years=5,
+                    preferred_language="en",
+                    verified_by_manager=True
+                )
+                db.add(analyst_profile)
+                db.commit()
+                print("Seeded Analyst user (5th role).")
+            print("Database already seeded. Skipping full initial seeding.")
             return
 
         print("Seeding Departments...")
@@ -242,6 +267,33 @@ def seed_all():
             verified_by_manager=True
         )
         db.add(admin_profile)
+
+        # 5. Analyst / Viewer (Read-only reports and dashboards)
+        analyst_user = User(
+            email="analyst@mospi.gov.in",
+            hashed_password=get_password_hash("Analyst@2026"),
+            full_name="Kavita Nair",
+            role=RoleEnum.ANALYST,
+            is_active=True,
+            is_verified=True
+        )
+        db.add(analyst_user)
+        db.flush()
+
+        analyst_profile = OfficialProfile(
+            user_id=analyst_user.id,
+            designation="Research Officer / Statistical Data Analyst",
+            department_id=dept_map["MoSPI-SSD"].id,
+            job_role_id=role_map["DD-SSD"].id,
+            employee_code="ISS/2024/042",
+            current_assignment="Sustainable Development Goals (SDG) Indicator Monitoring and Workforce Analysis.",
+            cadre="ISS",
+            state_posting="New Delhi",
+            work_experience_years=5,
+            preferred_language="en",
+            verified_by_manager=True
+        )
+        db.add(analyst_profile)
 
         print("Seeding Initial Assessed Competency Results for Ramesh Kumar...")
         # Ramesh has assessed 5 competencies so far; some have gaps, some are unassessed

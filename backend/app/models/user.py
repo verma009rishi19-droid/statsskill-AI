@@ -8,6 +8,7 @@ class RoleEnum:
     TRAINER = "trainer"
     MANAGER = "manager"
     ADMIN = "admin"
+    ANALYST = "analyst"
 
 class User(Base):
     __tablename__ = "users"

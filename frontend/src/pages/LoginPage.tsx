@@ -4,7 +4,7 @@ import { useAuth } from '../features/auth/AuthContext';
 import { authApi } from '../services/api';
 import {
   AlertCircle, Eye, EyeOff, LogIn, UserPlus, CheckCircle2,
-  GraduationCap, BookOpen, Briefcase, ShieldCheck, Sparkles, Activity
+  GraduationCap, BookOpen, Briefcase, ShieldCheck, Sparkles, Activity, BarChart2
 } from 'lucide-react';
 
 type Tab = 'signin' | 'register';
@@ -13,6 +13,7 @@ const ROLES = [
   { value: 'learner',  label: 'Learner',  desc: 'Statistical officer / analyst seeking training' },
   { value: 'trainer',  label: 'Trainer',  desc: 'NSSTA faculty or domain expert' },
   { value: 'manager',  label: 'Manager',  desc: 'Department head / reporting officer' },
+  { value: 'analyst',  label: 'Analyst',  desc: 'Statistical research officer / data analyst' },
 ];
 
 const DEMO_TILES = [
@@ -28,7 +29,7 @@ const DEMO_TILES = [
   },
   {
     role: 'trainer',
-    title: 'Trainer / Teacher',
+    title: 'Trainer / Faculty',
     name: 'Dr. Rajesh Kumar',
     email: 'trainer@nssta.gov.in',
     icon: GraduationCap,
@@ -38,7 +39,7 @@ const DEMO_TILES = [
   },
   {
     role: 'manager',
-    title: 'Manager',
+    title: 'Manager / Division Head',
     name: 'Anita Desai',
     email: 'manager@mospi.gov.in',
     icon: Briefcase,
@@ -55,6 +56,16 @@ const DEMO_TILES = [
     bg: 'hover:bg-purple-50/80 border-purple-200 text-purple-900',
     iconBg: 'bg-purple-100 text-purple-700',
     badge: 'bg-purple-50 text-purple-700 border-purple-200',
+  },
+  {
+    role: 'analyst',
+    title: 'Analyst / Viewer',
+    name: 'Kavita Nair',
+    email: 'analyst@mospi.gov.in',
+    icon: BarChart2,
+    bg: 'hover:bg-emerald-50/80 border-emerald-200 text-emerald-900',
+    iconBg: 'bg-emerald-100 text-emerald-700',
+    badge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
   },
 ] as const;
 

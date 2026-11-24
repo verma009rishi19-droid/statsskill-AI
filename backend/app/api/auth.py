@@ -73,7 +73,7 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="An account with this official email already exists")
 
     # Validate role assignment
-    assigned_role = user_in.role if user_in.role in [RoleEnum.LEARNER, RoleEnum.TRAINER, RoleEnum.MANAGER, RoleEnum.ADMIN] else RoleEnum.LEARNER
+    assigned_role = user_in.role if user_in.role in [RoleEnum.LEARNER, RoleEnum.TRAINER, RoleEnum.MANAGER, RoleEnum.ADMIN, RoleEnum.ANALYST] else RoleEnum.LEARNER
 
     user = User(
         email=user_in.email.lower().strip(),

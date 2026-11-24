@@ -63,7 +63,8 @@ api.interceptors.response.use(
         const body = JSON.parse(error.config.data || '{}');
         const role = body.email?.includes('trainer') ? 'trainer' :
                      body.email?.includes('manager') ? 'manager' :
-                     body.email?.includes('admin') ? 'admin' : 'learner';
+                     body.email?.includes('admin') ? 'admin' :
+                     body.email?.includes('analyst') ? 'analyst' : 'learner';
         const user = MOCK_USERS[role];
         return Promise.resolve({
           data: {
@@ -486,6 +487,7 @@ export const assessmentApi = {
 
 export const skillGapApi = {
   getMyGaps: () => api.get('/skill-gaps/my-gaps'),
+  getMyAnalysis: () => api.get('/skill-gaps/my-analysis'),
   getDepartmentGaps: (departmentId?: number) => api.get('/skill-gaps/department', { params: { department_id: departmentId } }),
 };
 

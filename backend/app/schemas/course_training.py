@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 
@@ -9,6 +9,8 @@ class CourseCompetencyMappingResponse(BaseModel):
     coverage_weight: float
 
 class CourseResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     title: str
     provider: str
@@ -23,10 +25,9 @@ class CourseResponse(BaseModel):
     is_active: bool
     competencies_covered: List[CourseCompetencyMappingResponse] = []
 
-    class Config:
-        from_attributes = True
-
 class NSSTATrainingProgrammeResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     title: str
     source_organization: str
@@ -42,9 +43,6 @@ class NSSTATrainingProgrammeResponse(BaseModel):
     official_url: Optional[str] = None
     source_reference: str
     last_verified_date: datetime
-
-    class Config:
-        from_attributes = True
 
 class RecommendationItem(BaseModel):
     id: str  # e.g. "course_1" or "nssta_2"

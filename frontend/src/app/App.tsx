@@ -3,6 +3,10 @@ import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom
 import { AuthProvider, useAuth } from '../features/auth/AuthContext';
 import { AppLayout } from '../layouts/AppLayout';
 
+import { RoleRoute } from '../features/auth/RoleRoute';
+import { RoleDashboardRouter } from '../pages/dashboards/RoleDashboardRouter';
+import { AccessDeniedPage } from '../pages/AccessDeniedPage';
+
 // Pages
 import { LoginPage } from '../pages/LoginPage';
 import { OverviewPage } from '../pages/OverviewPage';
@@ -76,7 +80,10 @@ export const App: React.FC = () => {
           {/* Protected routes inside AppLayout */}
           <Route element={<ProtectedRoute />}>
             <Route element={<AppLayout />}>
-              <Route path="/" element={<OverviewPage />} />
+              {/* Role-Specific Intelligent Dashboard Router */}
+              <Route path="/" element={<RoleDashboardRouter />} />
+
+              {/* Standard Platform Modules */}
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/assessments" element={<AssessmentPage />} />
               <Route path="/skill-gaps" element={<SkillGapPage />} />
@@ -90,7 +97,14 @@ export const App: React.FC = () => {
               <Route path="/assessment-history" element={<AssessmentHistoryPage />} />
               <Route path="/analytics" element={<AnalyticsPage />} />
               <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/admin" element={<AdminPage />} />
+
+              {/* Guarded Admin Route - Admin Role Only */}
+              <Route element={<RoleRoute allowedRoles={['admin']} />}>
+                <Route path="/admin" element={<AdminPage />} />
+              </Route>
+
+              {/* 403 Forbidden Access Page */}
+              <Route path="/forbidden" element={<AccessDeniedPage />} />
             </Route>
           </Route>
 
