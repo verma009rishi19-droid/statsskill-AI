@@ -2,15 +2,15 @@
 
 An AI-powered skill intelligence and adaptive competency development platform tailored for capacity building in India's Official Statistical System (MoSPI / NSSTA).
 
-[![Live Application](https://img.shields.io/badge/Live%20Demo-Available%20Online-success?style=for-the-badge&logo=vercel)](https://prompt-beryl-qluhpiz.tmp.now)
+[![Live Application](https://img.shields.io/badge/Live%20Demo-Available%20Online-success?style=for-the-badge&logo=vercel)](https://prompt-teal-76dj0ig.tmp.now)
 [![Repository](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/verma009rishi19-droid/statsskill-AI)
 [![Mobile Ready](https://img.shields.io/badge/Mobile-Android%20%7C%20iOS%20%7C%20PWA-3880FF?style=for-the-badge&logo=capacitor)](frontend/android)
 
 ---
 
 ## 🌐 Live Application
-- **Production URL**: [https://prompt-beryl-qluhpiz.tmp.now](https://prompt-beryl-qluhpiz.tmp.now)
-- **Claim Permanent Vercel Project**: [Claim Deployment Link](https://vercel.com/claim-deployment?code=29e98520-c1c7-4054-b437-6462c8fac3fa)
+- **Production URL**: [https://prompt-teal-76dj0ig.tmp.now](https://prompt-teal-76dj0ig.tmp.now)
+- **Claim Permanent Vercel Project**: [Claim Deployment Link](https://vercel.com/claim-deployment?code=6554e179-c5af-4df9-be11-73afe8a87c0f)
 - **Supported Platforms**: Desktop Browser, Android (PWA/Capacitor), iOS (Safari/PWA/Capacitor)
 
 ---
