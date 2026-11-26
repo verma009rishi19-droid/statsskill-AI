@@ -273,7 +273,7 @@ api.interceptors.response.use(
         } else if (q.includes('gap') || q.includes('skill')) {
           ans = "Based on your competency profile, you have two priority development areas: Price Statistics (CPI Compilation) and Python for Statistical Computing. Completing the recommended iGOT course will bring your proficiency to the required benchmark.";
         } else if (q.includes('python') || q.includes('code') || q.includes('lab')) {
-          ans = "For automated data verification in official statistical pipelines, Python's `pandas` and `numpy` libraries provide vectorized outlier detection. You can use the Virtual Lab sandbox to practice calculating interquartile range (IQR) and robust Z-scores on survey microdata.";
+          ans = "For automated data verification in official statistical pipelines, Python's `pandas` and `numpy` libraries provide vectorized outlier detection using interquartile range (IQR) and robust Z-scores on survey microdata.";
         }
         return Promise.resolve({
           data: {
@@ -355,45 +355,6 @@ api.interceptors.response.use(
       }
       if (url.includes('/quiz-studio/attempts/my-history')) {
         return Promise.resolve({ data: MOCK_QUIZ_HISTORY });
-      }
-
-      // 11. Interactive Virtual Lab (Code execution)
-      if (url.includes('/virtual-lab/execute')) {
-        const body = JSON.parse(error.config.data || '{}');
-        const labType = body.lab_type || 'sql_sandbox';
-        if (labType === 'sql_sandbox') {
-          return Promise.resolve({
-            data: {
-              success: true,
-              output: "Query executed successfully.\nReturned 10 records matching price_index_data.\nExecution time: 0.042 seconds.",
-              columns: ['market_code', 'commodity_name', 'base_price', 'current_price', 'price_relative', 'status'],
-              rows: [
-                ['DEL_01', 'Wheat (Grade A)', '32.50', '35.00', '1.0769', 'Verified'],
-                ['DEL_01', 'Rice (Sona Masuri)', '48.00', '52.00', '1.0833', 'Verified'],
-                ['DEL_02', 'Mustard Oil (1L)', '140.00', '145.00', '1.0357', 'Verified'],
-                ['MUM_01', 'Milk (Toned, 1L)', '54.00', '56.00', '1.0370', 'Verified'],
-                ['KOL_01', 'Fish (Rohu, 1kg)', '220.00', '230.00', '1.0454', 'Verified'],
-                ['CHE_01', 'Tur Dal (1kg)', '135.00', '138.00', '1.0222', 'Verified'],
-              ]
-            }
-          });
-        } else if (labType === 'cpi_calculator') {
-          return Promise.resolve({
-            data: {
-              success: true,
-              output: "CPI Elementary Aggregation Results:\n- Jevons Index (Geometric Mean): 105.18\n- Carli Index (Arithmetic Mean): 105.74\n- Dutot Index (Ratio of Averages): 105.12\n\nMethodological Note: Jevons formula avoids the +0.56 point upward bias of the Carli formula.",
-              result_summary: { jevons: 105.18, carli: 105.74, dutot: 105.12, bias_delta: 0.56 }
-            }
-          });
-        } else {
-          return Promise.resolve({
-            data: {
-              success: true,
-              output: "=== Data Quality Report (DQAF) ===\nTotal records processed: 14,200\nMissing values detected: 0\nOutlier records flagged (IQR > 1.5): 12\nExtreme anomaly tags (Z-score > 3): 2\nStatus: Anomaly scrutiny report exported.",
-              metrics: { total_records: 14200, outliers: 12, anomalies: 2 }
-            }
-          });
-        }
       }
 
       // 12. Analytics & Reports
@@ -533,10 +494,6 @@ export const quizStudioApi = {
 export const assistantApi = {
   chat: (data: any) => api.post('/assistant/chat', data),
   getHistory: () => api.get('/assistant/history'),
-};
-
-export const virtualLabApi = {
-  execute: (data: any) => api.post('/virtual-lab/execute', data),
 };
 
 export const analyticsApi = {

@@ -22,8 +22,7 @@ from app.schemas.quiz import (
 from app.schemas.assistant import ChatQueryRequest, ChatQueryResponse, SourceCitation
 from app.schemas.analytics import LearnerDashboardMetrics, DepartmentAnalyticsResponse, PredictiveWorkforceAnalyticsResponse
 from app.schemas.system import (
-    NotificationResponse, IntegrationSettingResponse, SyncLogResponse, AuditLogResponse,
-    VirtualLabExecuteRequest, VirtualLabExecuteResponse
+    NotificationResponse, IntegrationSettingResponse, SyncLogResponse, AuditLogResponse
 )
 
 __all__ = [
@@ -42,6 +41,5 @@ __all__ = [
     "QuizSubmitRequest", "QuizQuestionReview", "QuizAttemptResultResponse",
     "ChatQueryRequest", "ChatQueryResponse", "SourceCitation",
     "LearnerDashboardMetrics", "DepartmentAnalyticsResponse", "PredictiveWorkforceAnalyticsResponse",
-    "NotificationResponse", "IntegrationSettingResponse", "SyncLogResponse", "AuditLogResponse",
-    "VirtualLabExecuteRequest", "VirtualLabExecuteResponse"
+    "NotificationResponse", "IntegrationSettingResponse", "SyncLogResponse", "AuditLogResponse"
 ]

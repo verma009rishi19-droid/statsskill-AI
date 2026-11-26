@@ -19,7 +19,6 @@ import { CourseCataloguePage } from '../pages/CourseCataloguePage';
 import { NSSTAPage } from '../pages/NSSTAPage';
 import { AIAssistantPage } from '../pages/AIAssistantPage';
 import { QuizStudioPage } from '../pages/QuizStudioPage';
-import { VirtualLabPage } from '../pages/VirtualLabPage';
 import { MyLearningPage } from '../pages/MyLearningPage';
 import { AssessmentHistoryPage } from '../pages/AssessmentHistoryPage';
 import { AnalyticsPage } from '../pages/AnalyticsPage';
@@ -94,7 +93,6 @@ export const App: React.FC = () => {
               <Route path="/nssta" element={<NSSTAPage />} />
               <Route path="/assistant" element={<AIAssistantPage />} />
               <Route path="/quiz-studio" element={<QuizStudioPage />} />
-              <Route path="/virtual-lab" element={<VirtualLabPage />} />
               <Route path="/my-learning" element={<MyLearningPage />} />
               <Route path="/assessment-history" element={<AssessmentHistoryPage />} />
               <Route path="/analytics" element={<AnalyticsPage />} />

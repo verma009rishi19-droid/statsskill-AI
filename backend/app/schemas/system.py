@@ -47,16 +47,3 @@ class AuditLogResponse(BaseModel):
     ip_address: Optional[str] = None
     details: Dict[str, Any] = {}
     timestamp: datetime
-
-class VirtualLabExecuteRequest(BaseModel):
-    lab_type: str  # "sql_query", "python_data_validation", "cpi_calculator"
-    code_or_query: str
-    parameters: Optional[Dict[str, Any]] = None
-
-class VirtualLabExecuteResponse(BaseModel):
-    lab_type: str
-    success: bool
-    output: Any
-    execution_time_ms: float
-    validation_feedback: str
-    educational_notes: str

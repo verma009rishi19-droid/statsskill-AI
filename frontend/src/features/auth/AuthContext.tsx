@@ -10,8 +10,6 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   loginAs: (role: 'learner' | 'trainer' | 'manager' | 'admin' | 'analyst') => Promise<void>;
   logout: () => void;
-  language: string;
-  setLanguage: (lang: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,7 +18,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(localStorage.getItem('statskill_token'));
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [language, setLanguage] = useState<string>('en');
 
   useEffect(() => {
     const initAuth = async () => {
@@ -84,8 +81,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         login,
         loginAs,
         logout,
-        language,
-        setLanguage,
       }}
     >
       {children}

@@ -5,7 +5,7 @@ import { Sidebar } from '../components/common/Sidebar';
 import { MobileBottomNav } from '../components/common/MobileBottomNav';
 import { MobileNavProvider } from '../features/nav/MobileNavContext';
 import {
-  Home, LayoutDashboard, Bot, Target, Compass, Award, BookOpen, Terminal
+  Home, LayoutDashboard, Bot, Target, Compass, Award, BookOpen
 } from 'lucide-react';
 
 const QUICK_TABS = [
@@ -15,7 +15,6 @@ const QUICK_TABS = [
   { label: 'Learning Path', path: '/learning-paths', icon: Compass },
   { label: 'Courses', path: '/courses', icon: BookOpen },
   { label: 'Assessments', path: '/assessments', icon: Award },
-  { label: 'Virtual Lab', path: '/virtual-lab', icon: Terminal },
 ];
 
 export const AppLayout: React.FC = () => {
@@ -32,7 +31,6 @@ export const AppLayout: React.FC = () => {
       case '/nssta': return 'NSSTA Training Programmes';
       case '/assistant': return 'AI Learning Assistant';
       case '/quiz-studio': return 'AI Quiz Studio';
-      case '/virtual-lab': return 'Virtual Learning Labs';
       case '/my-learning': return 'My Learning';
       case '/assessment-history': return 'Assessment History';
       case '/analytics': return 'Analytics and Reports';

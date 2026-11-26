@@ -6,12 +6,12 @@ import { useMobileNav } from '../../features/nav/MobileNavContext';
 import { notificationApi } from '../../services/api';
 import { Notification } from '../../types';
 import {
-  Bell, Globe, LogOut, User, Shield, CheckCircle, ChevronDown,
+  Bell, LogOut, User, Shield, CheckCircle, ChevronDown,
   Activity, Sparkles, Menu, X, Sun, Moon
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
-  const { user, logout, loginAs, language, setLanguage } = useAuth();
+  const { user, logout, loginAs } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { isMobileMenuOpen, toggleMobileMenu } = useMobileNav();
 
@@ -108,7 +108,7 @@ export const Navbar: React.FC = () => {
           </Link>
         </div>
 
-        {/* Right: Persona Switcher, Language, Theme Toggle, Notifications, Profile & Sign Out */}
+        {/* Right: Persona Switcher, Theme Toggle, Notifications, Profile & Sign Out */}
         <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Quick Demo Role Switcher */}
           <div className="relative" ref={roleRef}>
@@ -147,18 +147,6 @@ export const Navbar: React.FC = () => {
               </div>
             )}
           </div>
-
-          {/* Bilingual Language Switcher */}
-          <button
-            onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
-            className="flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium transition"
-            title="Toggle Language: English / Hindi"
-          >
-            <Globe className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
-            <span className="font-semibold text-[11px] sm:text-xs">
-              {language === 'en' ? 'हिन्दी' : 'EN'}
-            </span>
-          </button>
 
           {/* Theme Toggle (Light / Dark) */}
           <button

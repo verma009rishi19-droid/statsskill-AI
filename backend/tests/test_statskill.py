@@ -127,33 +127,6 @@ def test_igot_adapter_status(client):
     assert data["is_demo_mode"] is True
     assert len(data["official_access_requirements"]) > 0
 
-def test_virtual_lab_execution(client):
-    login_res = client.post("/api/v1/auth/login", json={
-        "email": "learner@mospi.gov.in",
-        "password": "Learner@2026"
-    })
-    token = login_res.json()["access_token"]
-    headers = {"Authorization": f"Bearer {token}"}
-
-    # 1. SQL Query Lab
-    sql_res = client.post("/api/v1/virtual-lab/execute", json={
-        "lab_type": "sql_query",
-        "code_or_query": "SELECT market_center, commodity_group, current_price, sampling_weight FROM nsso_urban_prices WHERE state_code = 'DL'"
-    }, headers=headers)
-    assert sql_res.status_code == 200
-    assert sql_res.json()["success"] is True
-    assert len(sql_res.json()["output"]["rows"]) > 0
-
-    # 2. CPI Calculator Lab
-    cpi_res = client.post("/api/v1/virtual-lab/execute", json={
-        "lab_type": "cpi_calculator",
-        "code_or_query": ""
-    }, headers=headers)
-    assert cpi_res.status_code == 200
-    assert cpi_res.json()["success"] is True
-    assert "laspeyres_index" in cpi_res.json()["output"]
-    assert "fisher_ideal_index" in cpi_res.json()["output"]
-
 def test_diagnostic_assessment_flow(client):
     login_res = client.post("/api/v1/auth/login", json={
         "email": "learner@mospi.gov.in",

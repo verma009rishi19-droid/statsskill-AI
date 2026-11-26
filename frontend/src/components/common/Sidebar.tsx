@@ -4,7 +4,7 @@ import { useAuth } from '../../features/auth/AuthContext';
 import { useMobileNav } from '../../features/nav/MobileNavContext';
 import {
   LayoutDashboard, UserCheck, Award, Target, Compass, BookOpen,
-  GraduationCap, Bot, FileQuestion, Terminal, BookmarkCheck, History,
+  GraduationCap, Bot, FileQuestion, BookmarkCheck, History,
   BarChart3, Settings, ShieldCheck, X, PanelLeftClose, PanelLeftOpen
 } from 'lucide-react';
 
@@ -42,11 +42,10 @@ export const Sidebar: React.FC = () => {
       ],
     },
     {
-      title: 'AI & PRACTICAL LABS',
+      title: 'AI & PRACTICAL TOOLS',
       items: [
         { name: 'AI Assistant', path: '/assistant', icon: Bot, badge: 'Grounded' },
         { name: 'AI Quiz Studio', path: '/quiz-studio', icon: FileQuestion },
-        { name: 'Virtual Learning Labs', path: '/virtual-lab', icon: Terminal, badge: 'Sandbox' },
       ],
     },
     {

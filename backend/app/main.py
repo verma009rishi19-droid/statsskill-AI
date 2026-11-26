@@ -20,7 +20,6 @@ from app.api.igot import router as igot_router
 from app.api.learning_paths import router as learning_paths_router
 from app.api.quiz_studio import router as quiz_studio_router
 from app.api.assistant import router as assistant_router
-from app.api.virtual_lab import router as virtual_lab_router
 from app.api.analytics import router as analytics_router
 from app.api.admin import router as admin_router
 from app.api.notifications import router as notifications_router
@@ -72,7 +71,6 @@ app.include_router(igot_router, prefix=api_prefix)
 app.include_router(learning_paths_router, prefix=api_prefix)
 app.include_router(quiz_studio_router, prefix=api_prefix)
 app.include_router(assistant_router, prefix=api_prefix)
-app.include_router(virtual_lab_router, prefix=api_prefix)
 app.include_router(analytics_router, prefix=api_prefix)
 app.include_router(admin_router, prefix=api_prefix)
 app.include_router(notifications_router, prefix=api_prefix)

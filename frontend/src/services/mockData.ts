@@ -383,8 +383,8 @@ export const MOCK_LEARNING_PATH = {
       duration_hours: 12,
       status: 'not_started',
       progress_pct: 0,
-      resource_url: '/virtual-lab',
-      resource_type: 'Virtual Data Lab',
+      resource_url: '/courses',
+      resource_type: 'Self-Paced Course',
       order: 4
     }
   ]
