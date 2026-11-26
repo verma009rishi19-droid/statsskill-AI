@@ -60,7 +60,7 @@ class AnalyticsService:
         elif gap_analysis.unassessed_count > 0:
             next_action = "Attempt pending diagnostic assessments to complete your official competency benchmark."
         else:
-            next_action = "Continue active learning path modules and engage in Virtual Lab demonstrations."
+            next_action = "Continue active learning path modules and attempt upcoming diagnostic assessments."
 
         recent_activity = [
             {

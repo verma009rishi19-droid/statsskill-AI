@@ -41,7 +41,6 @@ StatSkill AI enforces JWT-authenticated, role-based access control on both the F
 - **Adaptive Learning & Catalogues**: Personalized learning paths integrating **NSSTA** programmes and **iGOT Karmayogi** course catalogues with progress tracking.
 - **AI Learning Assistant**: Grounded statistical assistant referencing official survey manuals, sampling theory, CPI/GDP methodologies, and Data Quality Assurance Frameworks (DQAF).
 - **AI Quiz Studio**: Document-to-assessment pipeline (PDF, DOCX, PPTX, TXT) generating instant multiple-choice evaluations.
-- **Interactive Virtual Lab**: Browser-accessible sandbox for practical statistical computing and data validation exercises.
 - **Analytics & Governance**: Real-time readiness metrics, division-level heatmaps, and exportable reports.
 - **Resilient Architecture**: Includes an automatic offline fallback engine so the UI remains responsive even during backend cold starts or disconnected sessions.
 
@@ -82,7 +81,7 @@ statsskill-ai/
 │   │   ├── core/           # Config, database session, JWT security, seed data
 │   │   ├── models/         # SQLAlchemy ORM models
 │   │   ├── schemas/        # Pydantic v2 validation schemas
-│   │   └── services/       # Business logic, AI provider, document parser, lab engine
+│   │   └── services/       # Business logic, AI provider, document parser, analytics engine
 │   ├── tests/              # Pytest integration & RBAC test suite
 │   └── requirements.txt    # Backend Python dependencies
 │
@@ -141,7 +140,7 @@ Web Application: `http://localhost:5173`
 ## 🧪 Testing & Quality Assurance
 
 ```bash
-# Backend automated test suite (13 tests)
+# Backend automated test suite (12 tests)
 cd backend
 pytest tests/ -v
 

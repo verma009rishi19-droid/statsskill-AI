@@ -300,7 +300,7 @@ class LocalFallbackAIProvider(BaseAIProvider):
             text = (
                 f"Welcome to StatSkill AI. As an official in {dept} serving as {role}, "
                 "I can assist you with statistical concepts (SNA 2008, CPI, PLFS, DQAF), explain your personal skill-gap metrics, "
-                "recommend certified training from iGOT Karmayogi and NSSTA, or guide you through interactive virtual lab exercises."
+                "recommend certified training from iGOT Karmayogi and NSSTA, or help you prepare for diagnostic assessments."
             )
             citations = [
                 {"title": "Official Statistical System Overview", "source": "MoSPI Annual Report & NSSTA Calendar", "snippet": "Core divisions and national indicator frameworks."}
@@ -316,7 +316,7 @@ class LocalFallbackAIProvider(BaseAIProvider):
             "followups": [
                 "What are the specific eligibility requirements for the NSSTA workshop?",
                 "Show me the formula for geometric mean elementary index aggregation.",
-                "How do I practice this in the Virtual Data Lab?"
+                "How do I prepare for my next diagnostic assessment?"
             ]
         }
 
