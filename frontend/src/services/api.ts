@@ -147,8 +147,8 @@ api.interceptors.response.use(
               {
                 id: 2,
                 title: 'Python Vectorized Outlier Scrutiny & DQAF Rules',
-                type: 'Lab',
-                provider: 'NSSTA Virtual Lab',
+                type: 'Module',
+                provider: 'NSSTA TPAC',
                 urgency: 'Medium',
                 reason: 'Raises automated verification score to required level.'
               }
@@ -289,7 +289,7 @@ api.interceptors.response.use(
             suggested_followups: [
               'Explain NSSO two-stage stratified sampling design',
               'What is the formula for Jevons elementary index?',
-              'How do I practice this in the Virtual Data Lab?'
+              'Which NSSTA courses cover CPI compilation?'
             ],
             created_at: new Date().toISOString()
           }
