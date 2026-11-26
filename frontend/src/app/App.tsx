@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider, useAuth } from '../features/auth/AuthContext';
+import { ThemeProvider } from '../features/theme/ThemeContext';
 import { AppLayout } from '../layouts/AppLayout';
 
 import { RoleRoute } from '../features/auth/RoleRoute';
@@ -69,8 +70,9 @@ const GuestRoute: React.FC = () => {
 
 export const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <AuthProvider>
+    <ThemeProvider>
+      <BrowserRouter>
+        <AuthProvider>
         <Routes>
           {/* Public / guest-only route */}
           <Route element={<GuestRoute />}>
@@ -111,7 +113,8 @@ export const App: React.FC = () => {
           {/* Catch-all */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </AuthProvider>
-    </BrowserRouter>
+        </AuthProvider>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../features/auth/AuthContext';
+import { useTheme } from '../features/theme/ThemeContext';
 import { authApi } from '../services/api';
 import {
   AlertCircle, Eye, EyeOff, LogIn, UserPlus, CheckCircle2,
-  GraduationCap, BookOpen, Briefcase, ShieldCheck, Sparkles, Activity, BarChart2
+  GraduationCap, BookOpen, Briefcase, ShieldCheck, Sparkles, Activity, BarChart2, Sun, Moon
 } from 'lucide-react';
 
 type Tab = 'signin' | 'register';
@@ -72,6 +73,7 @@ const DEMO_TILES = [
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login, loginAs } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const [tab, setTab] = useState<Tab>('signin');
 
@@ -112,7 +114,7 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const handleDemoTileClick = async (role: 'learner' | 'trainer' | 'manager' | 'admin') => {
+  const handleDemoTileClick = async (role: 'learner' | 'trainer' | 'manager' | 'admin' | 'analyst') => {
     setSiError(null);
     setLoadingDemo(role);
     try {
@@ -164,54 +166,66 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const inputCls = `w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-slate-50
-                    placeholder:text-slate-400 focus:outline-none focus:ring-2
-                    focus:ring-gov-blue/20 focus:border-gov-blue
+  const inputCls = `w-full px-3 py-2 text-sm border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800/80
+                    text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2
+                    focus:ring-indigo-500/25 focus:border-indigo-500
                     disabled:opacity-50 transition`;
 
   const tabCls = (active: boolean) =>
-    `flex-1 py-2 text-sm font-semibold rounded-lg transition ${
+    `flex-1 py-2 text-sm font-semibold rounded-xl transition ${
       active
-        ? 'bg-gov-blue text-white shadow'
-        : 'text-slate-500 hover:text-slate-700'
+        ? 'bg-indigo-600 text-white shadow-xs'
+        : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
     }`;
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
-      <div className="flex-1 flex items-center justify-center px-4 py-8">
-        <div className="w-full max-w-md space-y-5">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col transition-colors relative">
+      {/* Top-right Theme Toggle */}
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-6">
+        <button
+          onClick={toggleTheme}
+          className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-800 shadow-xs transition"
+          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          aria-label="Toggle color theme"
+        >
+          {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+        </button>
+      </div>
 
-          {/* Branding with modern logo clicking home */}
+      <div className="flex-1 flex items-center justify-center px-4 py-8">
+        <div className="w-full max-w-lg space-y-5">
+
+          {/* Branding */}
           <div className="text-center space-y-2">
             <button
               onClick={() => navigate('/')}
               className="inline-flex items-center justify-center p-1 rounded-2xl hover:scale-105 active:scale-95 transition-transform"
               title="StatSkill AI Home"
             >
-              <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-tr from-blue-700 via-indigo-600 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-gov-blue/25 ring-2 ring-white">
+              <div className="relative h-14 w-14 rounded-2xl bg-gradient-to-tr from-indigo-600 via-blue-600 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/25 ring-2 ring-white dark:ring-slate-800">
                 <Activity className="h-7 w-7 text-white stroke-[2.2]" />
-                <span className="absolute -bottom-1 -right-1 bg-amber-400 text-navy-900 rounded-full p-0.5 shadow-sm">
+                <span className="absolute -bottom-1 -right-1 bg-amber-400 text-slate-900 rounded-full p-0.5 shadow-sm">
                   <Sparkles className="w-3 h-3 fill-current" />
                 </span>
               </div>
             </button>
-            <h1 className="text-2xl font-extrabold text-navy-900 tracking-tight">StatSkill AI</h1>
-            <p className="text-xs text-slate-500 max-w-xs mx-auto">
-              Official Statistical System Intelligence &amp; Competency Platform (MoSPI / NSSTA)
+            <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">StatSkill AI</h1>
+            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
+              Official Statistical System Intelligence &amp; Competency Platform (MoSPI · NSSTA)
             </p>
           </div>
 
-          {/* Quick Demo Access (Small Tile Format) */}
-          <div className="bg-white rounded-xl border border-slate-200 p-3.5 shadow-xs space-y-2">
+          {/* Quick Demo Access */}
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-xs space-y-2.5">
             <div className="flex items-center justify-between px-1">
-              <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-gov-blue" />
-                Quick Demo Access Tiles
+              <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+                1-Click Demo Personas
               </span>
-              <span className="text-[10px] text-slate-400">1-click test login</span>
+              <span className="text-[10px] text-slate-400 dark:text-slate-500">Instant role preview</span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {DEMO_TILES.map((t) => {
                 const Icon = t.icon;
                 const isLoadingThis = loadingDemo === t.role;
@@ -219,9 +233,9 @@ export const LoginPage: React.FC = () => {
                   <button
                     key={t.role}
                     type="button"
-                    onClick={() => handleDemoTileClick(t.role as any)}
+                    onClick={() => handleDemoTileClick(t.role)}
                     disabled={!!loadingDemo}
-                    className={`flex items-center gap-2.5 p-2 rounded-lg border border-slate-200 bg-white ${t.bg} transition text-left group disabled:opacity-60 disabled:cursor-not-allowed`}
+                    className="flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/50 hover:border-indigo-300 dark:hover:border-indigo-500/40 hover:bg-indigo-50/40 dark:hover:bg-indigo-500/10 transition text-left group disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${t.iconBg}`}>
                       {isLoadingThis ? (
@@ -231,10 +245,10 @@ export const LoginPage: React.FC = () => {
                       )}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="text-xs font-bold text-navy-900 truncate leading-tight group-hover:text-gov-blue">
+                      <div className="text-xs font-bold text-slate-900 dark:text-white leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
                         {t.title}
                       </div>
-                      <div className="text-[10px] text-slate-500 truncate">
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
                         {t.name}
                       </div>
                     </div>
@@ -245,9 +259,9 @@ export const LoginPage: React.FC = () => {
           </div>
 
           {/* Main Card */}
-          <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs overflow-hidden">
             {/* Tab switcher */}
-            <div className="flex gap-1 p-2 bg-slate-50 border-b border-slate-100">
+            <div className="flex gap-1 p-2 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800">
               <button className={tabCls(tab === 'signin')} onClick={() => { setTab('signin'); setSiError(null); }}>
                 <LogIn className="inline h-3.5 w-3.5 mr-1.5 -mt-0.5" />
                 Sign In
@@ -428,11 +442,11 @@ export const LoginPage: React.FC = () => {
       </div>
 
       {/* Footer */}
-      <footer className="py-4 text-center border-t border-slate-200 bg-white">
-        <p className="text-xs text-slate-400">
+      <footer className="py-4 text-center border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+        <p className="text-xs text-slate-500 dark:text-slate-400">
           Ministry of Statistics &amp; Programme Implementation &nbsp;·&nbsp; National Statistical Systems Training Academy
         </p>
-        <p className="text-[11px] text-slate-300 mt-1">StatSkill AI — Competency Development Platform</p>
+        <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1">StatSkill AI — Competency Development Platform</p>
       </footer>
     </div>
   );
