@@ -19,7 +19,7 @@ interface NavItem {
 export const Sidebar: React.FC = () => {
   const { user } = useAuth();
   const { isMobileMenuOpen, closeMobileMenu } = useMobileNav();
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   const sections: { title: string; items: NavItem[] }[] = [
     {

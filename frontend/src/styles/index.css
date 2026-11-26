@@ -22,6 +22,50 @@ html.dark body {
   color: #f8fafc;
 }
 
+/* Automatic cohesive dark surfaces for all secondary modules & role dashboards */
+html.dark main .bg-white {
+  background-color: #0f172a;
+}
+html.dark main .bg-slate-50,
+html.dark main .bg-slate-50\/50,
+html.dark main .bg-slate-50\/70,
+html.dark main .bg-slate-50\/80 {
+  background-color: rgba(30, 41, 59, 0.55);
+}
+html.dark main .bg-slate-100 {
+  background-color: #1e293b;
+}
+html.dark main .border-slate-200,
+html.dark main .border-slate-100,
+html.dark main .border-slate-300 {
+  border-color: #1e293b;
+}
+html.dark main .text-navy-900,
+html.dark main .text-slate-900,
+html.dark main .text-slate-800 {
+  color: #f1f5f9;
+}
+html.dark main .text-slate-700,
+html.dark main .text-slate-600 {
+  color: #cbd5e1;
+}
+html.dark main .text-slate-500 {
+  color: #94a3b8;
+}
+html.dark main input:not([type="checkbox"]):not([type="radio"]),
+html.dark main select,
+html.dark main textarea {
+  background-color: #0f172a;
+  border-color: #334155;
+  color: #f8fafc;
+}
+html.dark main table thead tr {
+  background-color: #1e293b;
+}
+html.dark main tbody tr:hover {
+  background-color: rgba(30, 41, 59, 0.5);
+}
+
 /* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
