@@ -2,7 +2,7 @@
 
 **AI-Powered Skill Intelligence & Adaptive Capacity Building Platform for India's Official Statistical System (MoSPI · NSSTA · ISS · SSS)**
 
-[![Live Application](https://img.shields.io/badge/Live%20App-Vercel-000000?style=for-the-badge&logo=vercel)](https://statsskill-85em0hupm-verma009rishi19-droid.vercel.app/login)
+[![Live Application](https://img.shields.io/badge/Live%20App-Vercel-000000?style=for-the-badge&logo=vercel)](https://statsskill-ai.vercel.app/login)
 [![Live API Docs](https://img.shields.io/badge/API%20Docs-Render%20Swagger-46E3B7?style=for-the-badge&logo=render)](https://statsskill-ai-1.onrender.com/docs)
 [![API Health](https://img.shields.io/badge/API%20Status-Healthy-22c55e?style=for-the-badge&logo=fastapi)](https://statsskill-ai-1.onrender.com/health)
 [![Mobile Ready](https://img.shields.io/badge/Mobile-Android%20%7C%20iOS%20%7C%20PWA-3880FF?style=for-the-badge&logo=capacitor)](frontend/android)
@@ -13,7 +13,7 @@
 
 | Service | Platform | URL |
 |---|---|---|
-| **Web Application (Frontend)** | Vercel | [https://statsskill-85em0hupm-verma009rishi19-droid.vercel.app/login](https://statsskill-85em0hupm-verma009rishi19-droid.vercel.app/login) |
+| **Web Application (Frontend)** | Vercel | [https://statsskill-ai.vercel.app/login](https://statsskill-ai.vercel.app/login) |
 | **REST API & Swagger Docs** | Render | [https://statsskill-ai-1.onrender.com/docs](https://statsskill-ai-1.onrender.com/docs) |
 | **Health Check Endpoint** | Render | [https://statsskill-ai-1.onrender.com/health](https://statsskill-ai-1.onrender.com/health) |
 
